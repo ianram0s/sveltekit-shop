@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import { authClient } from "$lib/auth-client";
+	import { goto } from "$app/navigation";
 	import ThemeSwitcher from './ThemeSwitcher.svelte';
 	import {
 		DropdownMenu,
@@ -10,21 +11,24 @@
 		DropdownMenuTrigger
 	} from '$lib/components/ui/dropdown-menu';
 
-	interface User {
-		id: string;
-		email: string;
-	}
+	const session = authClient.useSession();
 
-	let { user }: { user: User | null } = $props();
+	async function handleSignOut() {
+		await authClient.signOut({}, {
+			onSuccess: () => {
+				goto("/");
+			}
+		});
+	}
 </script>
 
-<header class="bg-card shadow-sm border-b border-border sticky top-0 z-10">
+<header class="bg-white/75 dark:bg-black/75 backdrop-blur-sm shadow-sm border-b border-border sticky top-0 z-10">
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 		<div class="flex justify-between items-center h-16">
 			<!-- App Name -->
 			<div class="flex items-center">
 				<a href="/" class="text-xl font-bold text-foreground hover:text-muted-foreground font-integral">
-					MyApp
+					DEMO STORE
 				</a>
 			</div>
 
@@ -33,28 +37,24 @@
 				<!-- Theme Switcher -->
 				<ThemeSwitcher />
 				
-				{#if user}
+				{#if $session.data?.user}
 					<!-- User Dropdown Menu -->
 					<DropdownMenu>
 						<DropdownMenuTrigger>
 							<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center hover:opacity-80 transition-opacity cursor-pointer">
 								<span class="text-primary-foreground text-sm font-medium">
-									{user.email.charAt(0).toUpperCase()}
+									{$session.data?.user.email.charAt(0).toUpperCase()}
 								</span>
 							</div>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent>
 							<DropdownMenuLabel>
-								{user.email}
+								{$session.data?.user.email}
 							</DropdownMenuLabel>
 							<DropdownMenuSeparator />
-							<form method="post" action="/logout" use:enhance>
-								<DropdownMenuItem variant="destructive">
-									<button type="submit" class="w-full text-left">
-										Sign out
-									</button>
-								</DropdownMenuItem>
-							</form>
+							<DropdownMenuItem variant="destructive" onclick={handleSignOut}>
+								Sign out
+							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				{:else}
