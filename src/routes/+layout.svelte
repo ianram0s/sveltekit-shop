@@ -6,13 +6,13 @@
 	let { children, data }: { children: any; data: LayoutServerData } = $props();
 </script>
 
-<div class="min-h-screen bg-gray-50">
-	<header class="bg-white shadow-sm border-b border-gray-200">
+<div class="h-screen bg-background flex flex-col">
+	<header class="bg-card shadow-sm border-b border-border sticky top-0 z-10">
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 			<div class="flex justify-between items-center h-16">
 				<!-- App Name -->
 				<div class="flex items-center">
-					<a href="/" class="text-xl font-bold text-gray-900 hover:text-gray-700 font-integral">
+					<a href="/" class="text-xl font-bold text-foreground hover:text-muted-foreground font-integral">
 						MyApp
 					</a>
 				</div>
@@ -23,19 +23,19 @@
 						<!-- User Avatar and Logout -->
 						<div class="flex items-center space-x-3">
 							<div class="flex items-center space-x-2">
-								<div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-									<span class="text-white text-sm font-medium">
+								<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+									<span class="text-primary-foreground text-sm font-medium">
 										{data.user.username.charAt(0).toUpperCase()}
 									</span>
 								</div>
-								<span class="text-sm text-gray-700">
+								<span class="text-sm text-foreground">
 									{data.user.username}
 								</span>
 							</div>
 							<form method="post" action="/logout" use:enhance>
 								<button
 									type="submit"
-									class="text-sm text-gray-500 hover:text-gray-700"
+									class="text-sm text-muted-foreground hover:text-foreground"
 								>
 									Sign out
 								</button>
@@ -45,7 +45,7 @@
 						<!-- Sign In Button -->
 						<a
 							href="/signin"
-							class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition-colors"
+							class="bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors"
 						>
 							Sign In
 						</a>
@@ -56,7 +56,7 @@
 	</header>
 
 	<!-- Main Content -->
-	<main>
+	<main class="flex-1 overflow-auto">
 		{@render children()}
 	</main>
 </div>

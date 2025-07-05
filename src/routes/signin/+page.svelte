@@ -6,17 +6,17 @@
 	let isLogin = $state(true);
 </script>
 
-<div class="min-h-screen flex items-center justify-center bg-gray-50">
+<div class="h-full flex items-center justify-center">
 	<div class="max-w-md w-full space-y-8">
 		<div class="text-center">
-			<h2 class="text-3xl font-bold text-gray-900">
+			<h2 class="text-3xl font-bold text-foreground font-integral">
 				{isLogin ? 'Sign in to your account' : 'Create your account'}
 			</h2>
-			<p class="mt-2 text-sm text-gray-600">
+			<p class="mt-2 text-sm text-muted-foreground">
 				{isLogin ? "Don't have an account?" : 'Already have an account?'}
 				<button
 					type="button"
-					class="font-medium text-blue-600 hover:text-blue-500"
+					class="font-medium text-primary hover:text-primary/80"
 					onclick={() => (isLogin = !isLogin)}
 				>
 					{isLogin ? 'Sign up' : 'Sign in'}
@@ -32,7 +32,7 @@
 		>
 			<div class="space-y-4">
 				<div>
-					<label for="username" class="block text-sm font-medium text-gray-700">
+					<label for="username" class="block text-sm font-medium text-foreground">
 						Username
 					</label>
 					<input
@@ -40,13 +40,13 @@
 						name="username"
 						type="text"
 						required
-						class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+						class="mt-1 block w-full px-3 py-2 border border-input rounded-md shadow-sm placeholder-muted-foreground focus:outline-none focus:ring-ring focus:border-ring bg-background text-foreground"
 						placeholder="Enter your username"
 					/>
 				</div>
 
 				<div>
-					<label for="password" class="block text-sm font-medium text-gray-700">
+					<label for="password" class="block text-sm font-medium text-foreground">
 						Password
 					</label>
 					<input
@@ -54,7 +54,7 @@
 						name="password"
 						type="password"
 						required
-						class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+						class="mt-1 block w-full px-3 py-2 border border-input rounded-md shadow-sm placeholder-muted-foreground focus:outline-none focus:ring-ring focus:border-ring bg-background text-foreground"
 						placeholder="Enter your password"
 					/>
 				</div>
@@ -62,15 +62,15 @@
 
 			<button
 				type="submit"
-				class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+				class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring transition-colors"
 			>
 				{isLogin ? 'Sign in' : 'Create account'}
 			</button>
 		</form>
 
 		{#if form?.message}
-			<div class="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
-				<p class="text-sm text-red-600">{form.message}</p>
+			<div class="mt-4 p-3 bg-destructive/10 border border-destructive/20 rounded-md">
+				<p class="text-sm text-destructive">{form.message}</p>
 			</div>
 		{/if}
 	</div>
