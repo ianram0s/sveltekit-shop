@@ -1,6 +1,14 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import ThemeSwitcher from './ThemeSwitcher.svelte';
+	import {
+		DropdownMenu,
+		DropdownMenuContent,
+		DropdownMenuItem,
+		DropdownMenuLabel,
+		DropdownMenuSeparator,
+		DropdownMenuTrigger
+	} from '$lib/components/ui/dropdown-menu';
 
 	interface User {
 		id: string;
@@ -26,27 +34,29 @@
 				<ThemeSwitcher />
 				
 				{#if user}
-					<!-- User Avatar and Logout -->
-					<div class="flex items-center space-x-3">
-						<div class="flex items-center space-x-2">
-							<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+					<!-- User Dropdown Menu -->
+					<DropdownMenu>
+						<DropdownMenuTrigger>
+							<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center hover:opacity-80 transition-opacity cursor-pointer">
 								<span class="text-primary-foreground text-sm font-medium">
 									{user.username.charAt(0).toUpperCase()}
 								</span>
 							</div>
-							<span class="text-sm text-foreground">
+						</DropdownMenuTrigger>
+						<DropdownMenuContent>
+							<DropdownMenuLabel>
 								{user.username}
-							</span>
-						</div>
-						<form method="post" action="/logout" use:enhance>
-							<button
-								type="submit"
-								class="text-sm text-muted-foreground hover:text-foreground"
-							>
-								Sign out
-							</button>
-						</form>
-					</div>
+							</DropdownMenuLabel>
+							<DropdownMenuSeparator />
+							<form method="post" action="/logout" use:enhance>
+								<DropdownMenuItem variant="destructive">
+									<button type="submit" class="w-full text-left">
+										Sign out
+									</button>
+								</DropdownMenuItem>
+							</form>
+						</DropdownMenuContent>
+					</DropdownMenu>
 				{:else}
 					<!-- Sign In Button -->
 					<a
