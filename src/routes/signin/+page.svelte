@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
+	import EyeIcon from '@lucide/svelte/icons/eye';
+	import EyeOffIcon from '@lucide/svelte/icons/eye-off';
 
 	let { form }: { form: ActionData } = $props();
 	let isLogin = $state(true);
+	let showPassword = $state(false);
 </script>
 
 <div class="h-full flex items-center justify-center">
@@ -32,16 +35,16 @@
 		>
 			<div class="space-y-4">
 				<div>
-					<label for="username" class="block text-sm font-medium text-foreground">
-						Username
+					<label for="email" class="block text-sm font-medium text-foreground">
+						Email
 					</label>
 					<input
-						id="username"
-						name="username"
-						type="text"
+						id="email"
+						name="email"
+						type="email"
 						required
 						class="mt-1 block w-full px-3 py-2 border border-input rounded-md shadow-sm placeholder-muted-foreground focus:outline-none focus:ring-ring focus:border-ring bg-background text-foreground"
-						placeholder="Enter your username"
+						placeholder="Enter your email"
 					/>
 				</div>
 
@@ -49,14 +52,27 @@
 					<label for="password" class="block text-sm font-medium text-foreground">
 						Password
 					</label>
-					<input
-						id="password"
-						name="password"
-						type="password"
-						required
-						class="mt-1 block w-full px-3 py-2 border border-input rounded-md shadow-sm placeholder-muted-foreground focus:outline-none focus:ring-ring focus:border-ring bg-background text-foreground"
-						placeholder="Enter your password"
-					/>
+					<div class="relative">
+						<input
+							id="password"
+							name="password"
+							type={showPassword ? 'text' : 'password'}
+							required
+							class="mt-1 block w-full px-3 py-2 pr-10 border border-input rounded-md shadow-sm placeholder-muted-foreground focus:outline-none focus:ring-ring focus:border-ring bg-background text-foreground"
+							placeholder="Enter your password"
+						/>
+						<button
+							type="button"
+							class="absolute inset-y-0 right-0 pr-3 flex items-center"
+							onclick={() => (showPassword = !showPassword)}
+						>
+							{#if showPassword}
+								<EyeOffIcon class="h-5 w-5 text-muted-foreground hover:text-foreground" />
+							{:else}
+								<EyeIcon class="h-5 w-5 text-muted-foreground hover:text-foreground" />
+							{/if}
+						</button>
+					</div>
 				</div>
 			</div>
 

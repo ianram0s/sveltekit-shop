@@ -12,7 +12,7 @@
 
 	interface User {
 		id: string;
-		username: string;
+		email: string;
 	}
 
 	let { user }: { user: User | null } = $props();
@@ -39,13 +39,13 @@
 						<DropdownMenuTrigger>
 							<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center hover:opacity-80 transition-opacity cursor-pointer">
 								<span class="text-primary-foreground text-sm font-medium">
-									{user.username.charAt(0).toUpperCase()}
+									{user.email.charAt(0).toUpperCase()}
 								</span>
 							</div>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent>
 							<DropdownMenuLabel>
-								{user.username}
+								{user.email}
 							</DropdownMenuLabel>
 							<DropdownMenuSeparator />
 							<form method="post" action="/logout" use:enhance>
