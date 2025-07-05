@@ -12,7 +12,7 @@
 			<div class="flex justify-between items-center h-16">
 				<!-- App Name -->
 				<div class="flex items-center">
-					<a href="/" class="text-xl font-bold text-gray-900 hover:text-gray-700">
+					<a href="/" class="text-xl font-bold text-gray-900 hover:text-gray-700 font-integral">
 						MyApp
 					</a>
 				</div>
