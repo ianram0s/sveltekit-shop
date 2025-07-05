@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import ThemeSwitcher from './ThemeSwitcher.svelte';
 
 	interface User {
 		id: string;
@@ -21,6 +22,9 @@
 
 			<!-- User Section -->
 			<div class="flex items-center space-x-4">
+				<!-- Theme Switcher -->
+				<ThemeSwitcher />
+				
 				{#if user}
 					<!-- User Avatar and Logout -->
 					<div class="flex items-center space-x-3">
