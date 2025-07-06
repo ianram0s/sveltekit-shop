@@ -32,10 +32,7 @@
 		}
 	});
 
-	$effect(() => {
-		errors = {};
-		serverError = '';
-	});
+
 
 	function validateField(name: string, value: string) {
 		switch (name) {
@@ -59,6 +56,37 @@
 		return Object.keys(errors).length > 0;
 	}
 
+	function getErrorMessage(error: any, isLogin: boolean): string {
+		if (!error?.message) {
+			return 'An unexpected error occurred. Please try again later.';
+		}
+
+		const errorMessages = {
+			signIn: {
+				'invalid': 'Invalid email or password. Please check your credentials and try again.',
+				'user not found': 'No account found with this email address. Please sign up first.',
+				'many attempts': 'Too many login attempts. Please try again later.'
+			},
+			signUp: {
+				'already exists': 'An account with this email already exists. Please sign in instead.',
+				'duplicate': 'An account with this email already exists. Please sign in instead.',
+				'weak password': 'Password is too weak. Please use at least 8 characters with a mix of letters, numbers, and symbols.',
+				'password requirements': 'Password is too weak. Please use at least 8 characters with a mix of letters, numbers, and symbols.'
+			}
+		};
+
+		const errorMessage = error.message.toLowerCase();
+		const messages = isLogin ? errorMessages.signIn : errorMessages.signUp;
+
+		for (const [pattern, message] of Object.entries(messages)) {
+			if (errorMessage.includes(pattern)) {
+				return message;
+			}
+		}
+
+		return error.message;
+	}
+
 	async function handleSubmit() {
 		const emailError = validateField('email', email);
 		const passwordError = validateField('password', password);
@@ -76,45 +104,16 @@
 		isLoading = true;
 		serverError = '';
 
-		try {
-			if (isLogin) {
-				await authClient.signIn.email({
-					email,
-					password
-				});
-			} else {
-				await authClient.signUp.email({
-					email,
-					password,
-					name
-				});
-			}
-			
-		} catch (error: any) {
-			console.error('Authentication error:', error);
-			
-			if (error?.message) {
-				const errorMessage = error.message as string;
-				
-				if (errorMessage.includes('Invalid email or password')) {
-					serverError = 'Invalid email or password. Please check your credentials and try again.';
-				} else if (errorMessage.includes('User not found')) {
-					serverError = 'No account found with this email address. Please sign up first.';
-				} else if (errorMessage.includes('already exists') || errorMessage.includes('duplicate')) {
-					serverError = 'An account with this email already exists. Please sign in instead.';
-				} else if (errorMessage.includes('weak password') || errorMessage.includes('password requirements')) {
-					serverError = 'Password is too weak. Please use at least 8 characters with a mix of letters, numbers, and symbols.';
-				} else if (errorMessage.includes('Too many attempts')) {
-					serverError = 'Too many login attempts. Please try again later.';
-				} else {
-					serverError = errorMessage;
-				}
-			} else {
-				serverError = `An unexpected error occurred. Please try again later.`;
-			}
-		} finally {
-			isLoading = false;
+		const authResult = isLogin 
+			? await authClient.signIn.email({ email, password })
+			: await authClient.signUp.email({ email, password, name });
+
+		if (authResult.error) {
+			console.error(`${isLogin ? 'Sign in' : 'Sign up'} error:`, authResult.error);
+			serverError = getErrorMessage(authResult.error, isLogin);
 		}
+
+		isLoading = false;
 	}
 </script>
 
@@ -236,6 +235,7 @@
 			<button
 				type="button"
 				onclick={handleSubmit}
+				disabled={isLoading}
 				class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-primary transform hover:scale-[1.02] active:scale-[0.98]"
 			>
 				{#if isLoading}
