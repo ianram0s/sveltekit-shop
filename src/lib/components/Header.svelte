@@ -10,13 +10,14 @@
 		DropdownMenuSeparator,
 		DropdownMenuTrigger
 	} from '$lib/components/ui/dropdown-menu';
+	import type { User } from "$lib/types";
 
-	const session = authClient.useSession();
+	let { user }: { user: User | null } = $props();
 
 	async function handleSignOut() {
 		await authClient.signOut({}, {
 			onSuccess: () => {
-				goto("/");
+				goto("/", { invalidateAll: true });
 			}
 		});
 	}
@@ -37,19 +38,19 @@
 				<!-- Theme Switcher -->
 				<ThemeSwitcher />
 				
-				{#if $session.data?.user}
+				{#if user}
 					<!-- User Dropdown Menu -->
 					<DropdownMenu>
 						<DropdownMenuTrigger>
 							<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center hover:opacity-80 transition-opacity cursor-pointer">
 								<span class="text-primary-foreground text-sm font-medium">
-									{$session.data?.user.email.charAt(0).toUpperCase()}
+									{user.email.charAt(0).toUpperCase()}
 								</span>
 							</div>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent>
 							<DropdownMenuLabel>
-								{$session.data?.user.email}
+								{user.email}
 							</DropdownMenuLabel>
 							<DropdownMenuSeparator />
 							<DropdownMenuItem variant="destructive" onclick={handleSignOut}>
