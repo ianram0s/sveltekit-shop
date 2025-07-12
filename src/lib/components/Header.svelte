@@ -42,10 +42,18 @@
 					<!-- User Dropdown Menu -->
 					<DropdownMenu>
 						<DropdownMenuTrigger>
-							<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center hover:opacity-80 transition-opacity cursor-pointer">
+							<div class="w-8 h-8 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity cursor-pointer overflow-hidden">
+								{#if user.image}
+									<img 
+										src={user.image} 
+										alt={user.name || user.email}
+										class="w-full h-full object-cover rounded-full"
+									/>
+								{:else}
 								<span class="text-primary-foreground text-sm font-medium">
 									{user.email.charAt(0).toUpperCase()}
 								</span>
+								{/if}
 							</div>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent>
