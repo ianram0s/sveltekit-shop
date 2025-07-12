@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, date } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
 	id: text('id').primaryKey(),
@@ -6,6 +6,22 @@ export const user = pgTable("user", {
 	email: text('email').notNull().unique(),
 	emailVerified: boolean('email_verified').$defaultFn(() => false).notNull(),
 	image: text('image'),
+	phone: text('phone'),
+	dateOfBirth: date('date_of_birth'),
+	createdAt: timestamp('created_at').$defaultFn(() => /* @__PURE__ */ new Date()).notNull(),
+	updatedAt: timestamp('updated_at').$defaultFn(() => /* @__PURE__ */ new Date()).notNull()
+});
+
+export const address = pgTable("address", {
+	id: text('id').primaryKey(),
+	userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
+	street: text('street').notNull(),
+	city: text('city').notNull(),
+	state: text('state').notNull(),
+	zipCode: text('zip_code').notNull(),
+	country: text('country').notNull(),
+	isDefault: boolean('is_default').$defaultFn(() => false).notNull(),
+	label: text('label'),
 	createdAt: timestamp('created_at').$defaultFn(() => /* @__PURE__ */ new Date()).notNull(),
 	updatedAt: timestamp('updated_at').$defaultFn(() => /* @__PURE__ */ new Date()).notNull()
 });
@@ -47,5 +63,5 @@ export const verification = pgTable("verification", {
 });
 
 export type Session = typeof session.$inferSelect;
-
 export type User = typeof user.$inferSelect;
+export type Address = typeof address.$inferSelect;

@@ -15,6 +15,13 @@
       "when": 1751748537866,
       "tag": "0001_broad_master_mold",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1752288465746,
+      "tag": "0002_square_thaddeus_ross",
+      "breakpoints": true
     }
   ]
 }

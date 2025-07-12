@@ -1,15 +1,18 @@
-export interface User {
-	id: string;
-	email: string;
-	name: string;
-	image?: string;
-	emailVerified?: boolean;
-	createdAt?: Date;
-	updatedAt?: Date;
+export type { User, Address, CreateAddressData, Session } from '$lib/server/db/schema';
+
+export interface UpdateUserData {
+	name?: string;
+	email?: string;
+	phone?: string | null;
+	dateOfBirth?: string | null;
 }
 
-export interface Session {
-	user: User;
-	token: string;
-	expiresAt: Date;
-} 
+export interface UpdateAddressData {
+	street?: string;
+	city?: string;
+	state?: string;
+	zipCode?: string;
+	country?: string;
+	label?: string | null;
+	isDefault?: boolean;
+}
