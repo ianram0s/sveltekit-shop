@@ -61,6 +61,10 @@
 								{user.email}
 							</DropdownMenuLabel>
 							<DropdownMenuSeparator />
+							<DropdownMenuItem>
+								<a href="/my-account" class="w-full">My Account</a>
+							</DropdownMenuItem>
+							<DropdownMenuSeparator />
 							<DropdownMenuItem variant="destructive" onclick={handleSignOut}>
 								Sign out
 							</DropdownMenuItem>

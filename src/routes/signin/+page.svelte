@@ -18,8 +18,8 @@
 	let password = $state('');
 	let name = $state('');
 
-	function validateField(name: string, value: string) {
-		switch (name) {
+	function validateField(field: string, value: string) {
+		switch (field) {
 			case 'email':
 				if (!value) return 'Email is required';
 				if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Please enter a valid email';

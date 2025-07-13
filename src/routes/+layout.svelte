@@ -1,12 +1,14 @@
 <script lang="ts">
 	import '../app.css';
 	import { ModeWatcher } from 'mode-watcher';
+	import { Toaster } from "$lib/components/ui/sonner";
 	import Header from '$lib/components/Header.svelte';
 
 	let { children, data } = $props();
 </script>
 
 <ModeWatcher />
+<Toaster position="top-center" richColors />
 
 <div class="h-screen bg-background flex flex-col">
 	<Header user={data.user} />
