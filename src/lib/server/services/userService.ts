@@ -36,10 +36,14 @@ export class UserService {
 					.map(([key, value]) => {
 						if (key === 'dateOfBirth' && value && typeof value === 'string') {
 							const parsedDate = parseDate(value, 'dd/MM/yyyy', new Date());
+							const utcDate = new Date(Date.UTC(parsedDate.getFullYear(), parsedDate.getMonth(), parsedDate.getDate()));
 							if (isNaN(parsedDate.getTime())) {
 								return [key, null];
 							}
-							return [key, format(parsedDate, 'yyyy-MM-dd')];
+							const yyyy = utcDate.getUTCFullYear();
+							const mm = String(utcDate.getUTCMonth() + 1).padStart(2, '0');
+							const dd = String(utcDate.getUTCDate()).padStart(2, '0');
+							return [key, `${yyyy}-${mm}-${dd}`];
 						}
 						return [key, value === undefined ? null : value];
 					})

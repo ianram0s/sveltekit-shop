@@ -57,17 +57,11 @@
 	function formatDate(dateString: string | Date | null | undefined) {
 		if (!dateString) return 'Not informed';
 		try {
-			if (typeof dateString === 'string' && dateString.includes('/')) {
-				return dateString;
-			}
-
 			const date = typeof dateString === 'string' ? new Date(dateString) : dateString;
 			if (isNaN(date.getTime())) return 'Not informed';
-
-			const day = date.getDate().toString().padStart(2, '0');
-			const month = (date.getMonth() + 1).toString().padStart(2, '0');
-			const year = date.getFullYear();
-
+			const day = String(date.getUTCDate()).padStart(2, '0');
+			const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+			const year = date.getUTCFullYear();
 			return `${day}/${month}/${year}`;
 		} catch (error) {
 			return 'Not informed';

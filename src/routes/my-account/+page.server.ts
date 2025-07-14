@@ -5,7 +5,7 @@ import { AddressService } from "@/server/services/addressService";
 import { superValidate, message } from 'sveltekit-superforms';
 import { zod4 } from 'sveltekit-superforms/adapters';
 import { profileFormSchema, addressFormSchema } from '@/schemas';
-import { format, parse } from 'date-fns';
+import { parse } from 'date-fns';
 import type { Actions } from "./$types";
 
 async function getAuthenticatedUser(request: Request) {
@@ -38,7 +38,10 @@ export async function load({ request }) {
 		try {
 			const date = new Date(dateValue);
 			if (!isNaN(date.getTime())) {
-				return format(date, 'dd/MM/yyyy');
+				const day = String(date.getUTCDate()).padStart(2, '0');
+				const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+				const year = date.getUTCFullYear();
+				return `${day}/${month}/${year}`;
 			}
 		} catch (error) {
 			console.error('Error formatting date:', error);

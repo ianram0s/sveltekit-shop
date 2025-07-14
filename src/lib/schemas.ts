@@ -1,5 +1,6 @@
 
 import { z } from 'zod/v4';
+import { parse, isValid } from 'date-fns';
 
 export const profileFormSchema = z.object({
     name: z.string().min(1, { message: 'Name is required' }),
@@ -9,9 +10,9 @@ export const profileFormSchema = z.object({
         return /^\+?[\d\s-()]+$/.test(v);
     }, { message: 'Please enter a valid phone number' }),
     dateOfBirth: z.string().optional().refine((v) => {
-        if (!v) return true;
-        const date = new Date(v);
-        if (isNaN(date.getTime())) return false;
+        if (!v || v === '') return true;
+        const date = parse(v, 'dd/MM/yyyy', new Date());
+        if (!isValid(date)) return false;
         const now = new Date();
         if (date > now) return false;
         const minDate = new Date(now.getFullYear() - 150, now.getMonth(), now.getDate());
