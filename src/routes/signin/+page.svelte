@@ -2,9 +2,7 @@
 	import { authClient } from '$lib/auth-client';
 	import { slide, fade } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
-	import EyeIcon from '@lucide/svelte/icons/eye';
-	import EyeOffIcon from '@lucide/svelte/icons/eye-off';
-	import AlertCircleIcon from '@lucide/svelte/icons/alert-circle';
+	import { EyeIcon, EyeOffIcon, AlertCircleIcon } from '$lib/components/icons';
 	import { goto } from '$app/navigation';
 	import { signInSchema, signUpSchema, type SignInInput, type SignUpInput } from '$lib/schemas';
 

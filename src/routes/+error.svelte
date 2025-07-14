@@ -1,10 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { Button } from '$lib/components/ui/button';
-	import AlertCircleIcon from '@lucide/svelte/icons/alert-circle';
-	import FileQuestionIcon from '@lucide/svelte/icons/file-question';
-	import HomeIcon from '@lucide/svelte/icons/home';
-	import ArrowLeftIcon from '@lucide/svelte/icons/arrow-left';
+	import { AlertCircleIcon, FileQuestionIcon, HomeIcon, ArrowLeftIcon } from '$lib/components/icons';
 	import { goto } from '$app/navigation';
 
 	const status = $derived(page.status);

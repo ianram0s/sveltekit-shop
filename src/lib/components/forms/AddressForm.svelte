@@ -5,9 +5,7 @@
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { cn } from '$lib/utils';
 
-	import SaveIcon from '@lucide/svelte/icons/save';
-	import XIcon from '@lucide/svelte/icons/x';
-	import AlertCircleIcon from '@lucide/svelte/icons/alert-circle';
+	import { SaveIcon, XIcon, AlertCircleIcon } from '$lib/components/icons';
 
 	let {
 		formData,

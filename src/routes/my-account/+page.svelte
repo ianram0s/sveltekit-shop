@@ -8,17 +8,19 @@
 	import AddressForm from '$lib/components/forms/AddressForm.svelte';
 	import * as AlertDialog from '$lib/components/ui/alert-dialog';
 
-	import UserIcon from '@lucide/svelte/icons/user';
-	import MailIcon from '@lucide/svelte/icons/mail';
-	import PhoneIcon from '@lucide/svelte/icons/phone';
-	import MapPinIcon from '@lucide/svelte/icons/map-pin';
-	import CalendarIcon from '@lucide/svelte/icons/calendar';
-	import PackageIcon from '@lucide/svelte/icons/package';
-	import HeartIcon from '@lucide/svelte/icons/heart';
-	import SettingsIcon from '@lucide/svelte/icons/settings';
-	import LogOutIcon from '@lucide/svelte/icons/log-out';
-	import EditIcon from '@lucide/svelte/icons/edit-3';
-	import ClockIcon from '@lucide/svelte/icons/clock';
+	import {
+		UserIcon,
+		MailIcon,
+		PhoneIcon,
+		MapPinIcon,
+		CalendarIcon,
+		PackageIcon,
+		HeartIcon,
+		SettingsIcon,
+		LogOutIcon,
+		EditIcon,
+		ClockIcon
+	} from '$lib/components/icons';
 
 	import { goto } from '$app/navigation';
 	import { toast } from 'svelte-sonner';

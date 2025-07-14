@@ -1,7 +1,6 @@
-import type { User, ProfileFormInput } from '$lib/types';
-import { profileFormSchema } from '$lib/schemas';
+import { profileFormSchema, type ProfileFormInput } from '$lib/schemas';
 import { db } from '../db';
-import { user } from '../db/models';
+import { user, type User } from '../db/models';
 import { eq } from 'drizzle-orm';
 import { parse as parseDate } from 'date-fns';
 

@@ -10,9 +10,9 @@
 		DropdownMenuSeparator,
 		DropdownMenuTrigger
 	} from '$lib/components/ui/dropdown-menu';
-	import type { User } from '$lib/types';
+	import type { User } from '$lib/server/db/models';
 	import { Avatar, AvatarImage, AvatarFallback } from '$lib/components/ui/avatar';
-	import ShieldIcon from '@lucide/svelte/icons/shield';
+	import { ShieldIcon } from '$lib/components/icons';
 
 	let { user }: { user: User | null } = $props();
 

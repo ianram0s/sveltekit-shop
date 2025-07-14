@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AlertCircleIcon from '@lucide/svelte/icons/alert-circle';
+	import { AlertCircleIcon } from '$lib/components/icons';
 
 	let {
 		value = $bindable(),
@@ -32,11 +32,11 @@
 		isUserTyping = true;
 		const target = event.target as HTMLInputElement;
 		let inputValue = target.value.replace(/\D/g, '');
-		
+
 		if (inputValue.length > 8) {
 			inputValue = inputValue.substring(0, 8);
 		}
-		
+
 		let formattedValue = '';
 		for (let i = 0; i < inputValue.length; i++) {
 			if (i === 2 || i === 4) {
@@ -44,10 +44,10 @@
 			}
 			formattedValue += inputValue[i];
 		}
-		
+
 		target.value = formattedValue;
 		value = formattedValue;
-		
+
 		setTimeout(() => {
 			isUserTyping = false;
 		}, 300);
@@ -58,7 +58,7 @@
 		isUserTyping = true;
 		const pastedText = event.clipboardData?.getData('text') || '';
 		const digits = pastedText.replace(/\D/g, '');
-		
+
 		if (digits.length <= 8) {
 			inputElement.value = '';
 			for (const digit of digits) {
@@ -66,7 +66,7 @@
 				handleInput({ target: inputElement } as any);
 			}
 		}
-		
+
 		setTimeout(() => {
 			isUserTyping = false;
 		}, 300);
@@ -76,11 +76,11 @@
 		isUserTyping = true;
 		const target = event.target as HTMLInputElement;
 		const { selectionStart, selectionEnd } = target;
-		
+
 		if (event.key === 'Backspace' && selectionStart === selectionEnd) {
 			const pos = selectionStart || 0;
 			const currentValue = target.value;
-			
+
 			if (pos > 0 && currentValue[pos - 1] === '/') {
 				event.preventDefault();
 				const newValue = currentValue.slice(0, pos - 2) + currentValue.slice(pos);
@@ -89,7 +89,7 @@
 				handleInput(event);
 			}
 		}
-		
+
 		setTimeout(() => {
 			isUserTyping = false;
 		}, 300);
@@ -106,12 +106,12 @@
 
 	function getFormatError() {
 		if (!value) return '';
-		
+
 		const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
 		if (!regex.test(value)) {
 			return 'Please enter date in dd/mm/yyyy format';
 		}
-		
+
 		return '';
 	}
 

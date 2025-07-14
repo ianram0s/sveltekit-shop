@@ -1,8 +1,7 @@
 import auth from "$lib/server/auth";
 import { db } from "$lib/server/db";
-import { user } from "$lib/server/db/models";
+import { user, type User } from "$lib/server/db/models";
 import { eq } from "drizzle-orm";
-import type { User } from "$lib/types";
 import { error, redirect } from "@sveltejs/kit";
 
 export enum AuthError {
