@@ -5,6 +5,7 @@
 	import EyeIcon from '@lucide/svelte/icons/eye';
 	import EyeOffIcon from '@lucide/svelte/icons/eye-off';
 	import AlertCircleIcon from '@lucide/svelte/icons/alert-circle';
+	import { goto } from '$app/navigation';
 
 
 	let isLogin = $state(true);
@@ -90,6 +91,8 @@
 
 		if (authResult.error) {
 			serverError = getErrorMessage(authResult.error, isLogin);
+		} else {
+			goto('/', { invalidateAll: true });
 		}
 
 		isLoading = false;
