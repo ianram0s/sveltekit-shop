@@ -1,6 +1,6 @@
 import type { Address, AddressFormInput } from '$lib/types';
 import { db } from '../db';
-import { address } from '../db/schema';
+import { address } from '../db/models';
 import { eq, and } from 'drizzle-orm';
 import { addressFormSchema } from '$lib/schemas';
 

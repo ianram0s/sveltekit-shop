@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
-import * as schema from '../schema.js';
-import { seeder } from '../schema.js';
+import * as schema from '../models'
+import { seeder } from '../models';
 import { eq } from 'drizzle-orm';
 
 if (!process.env.DATABASE_URL) throw new Error('DATABASE_URL is not set');
