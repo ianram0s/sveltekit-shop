@@ -3,6 +3,7 @@ import { profileFormSchema } from '$lib/schemas';
 import { db } from '../db';
 import { user } from '../db/schema';
 import { eq } from 'drizzle-orm';
+import { parse as parseDate, format } from 'date-fns';
 
 export class UserService {
 	/**
@@ -32,7 +33,16 @@ export class UserService {
 		try {
 			const updateData: Partial<User> = Object.fromEntries(
 				Object.entries({ ...data })
-					.map(([key, value]) => [key, value === undefined ? null : value])
+					.map(([key, value]) => {
+						if (key === 'dateOfBirth' && value && typeof value === 'string') {
+							const parsedDate = parseDate(value, 'dd/MM/yyyy', new Date());
+							if (isNaN(parsedDate.getTime())) {
+								return [key, null];
+							}
+							return [key, format(parsedDate, 'yyyy-MM-dd')];
+						}
+						return [key, value === undefined ? null : value];
+					})
 			);
 			updateData.updatedAt = new Date();
 			

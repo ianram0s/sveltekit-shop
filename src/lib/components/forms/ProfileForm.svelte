@@ -4,6 +4,7 @@
 	import { profileFormSchema, type ProfileFormInput } from '@/schemas';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { cn } from '$lib/utils';
+	import DateInput from '$lib/components/ui/DateInput.svelte';
 
 	import SaveIcon from '@lucide/svelte/icons/save';
 	import XIcon from '@lucide/svelte/icons/x';
@@ -111,22 +112,13 @@
 			<label for="dateOfBirth" class="text-foreground mb-2 block text-sm font-medium">
 				Date of Birth
 			</label>
-			<input
+			<DateInput
 				id="dateOfBirth"
 				name="dateOfBirth"
 				bind:value={$form.dateOfBirth}
-				type="date"
-				max={new Date().toISOString().split('T')[0]}
-				class="placeholder-muted-foreground focus:ring-ring focus:border-ring bg-background text-foreground w-full rounded-md border px-3 py-2 shadow-sm transition-colors duration-200 focus:ring-2 focus:outline-none {$errors.dateOfBirth
-					? 'border-destructive focus:border-destructive focus:ring-destructive/20'
-					: 'border-input'}"
+				error={$errors.dateOfBirth?.[0] || ''}
+				placeholder="dd/mm/yyyy"
 			/>
-			{#if $errors.dateOfBirth}
-				<div class="mt-1 flex items-center space-x-1">
-					<AlertCircleIcon class="text-destructive h-4 w-4" />
-					<p class="text-destructive text-sm">{$errors.dateOfBirth}</p>
-				</div>
-			{/if}
 		</div>
 	</div>
 

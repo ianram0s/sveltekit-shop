@@ -5,6 +5,7 @@ import { AddressService } from "@/server/services/addressService";
 import { superValidate, message } from 'sveltekit-superforms';
 import { zod4 } from 'sveltekit-superforms/adapters';
 import { profileFormSchema, addressFormSchema } from '@/schemas';
+import { format, parse } from 'date-fns';
 import type { Actions } from "./$types";
 
 async function getAuthenticatedUser(request: Request) {
@@ -31,11 +32,26 @@ export async function load({ request }) {
 		AddressService.getUserAddresses(user.id)
 	]);
 
+	function formatDateForDisplay(dateValue: any): string | undefined {
+		if (!dateValue) return undefined;
+		
+		try {
+			const date = new Date(dateValue);
+			if (!isNaN(date.getTime())) {
+				return format(date, 'dd/MM/yyyy');
+			}
+		} catch (error) {
+			console.error('Error formatting date:', error);
+		}
+		
+		return undefined;
+	}
+
 	const profileForm = await superValidate({
 		name: userData?.name || '',
 		email: userData?.email || '',
 		phone: userData?.phone || undefined,
-		dateOfBirth: userData?.dateOfBirth ? new Date(userData.dateOfBirth).toISOString().split('T')[0] : undefined
+		dateOfBirth: formatDateForDisplay(userData?.dateOfBirth)
 	}, zod4(profileFormSchema));
 
 	const addressForm = addresses[0]
@@ -74,7 +90,8 @@ export const actions = {
 		try {
 			let dateOfBirth: string | undefined = undefined;
 			if (profileForm.data.dateOfBirth) {
-				const parsedDate = new Date(profileForm.data.dateOfBirth + 'T00:00:00.000Z');
+				const parsedDate = parse(profileForm.data.dateOfBirth, 'dd/MM/yyyy', new Date());
+				
 				if (isNaN(parsedDate.getTime())) {
 					return fail(400, {
 						profileForm,
@@ -83,7 +100,6 @@ export const actions = {
 				}
 				dateOfBirth = profileForm.data.dateOfBirth;
 			}
-
 			const updatedUser = await UserService.updateUser(user.id, {
 				name: profileForm.data.name,
 				email: profileForm.data.email,
