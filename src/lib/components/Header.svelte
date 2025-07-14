@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { authClient } from "$lib/auth-client";
-	import { goto } from "$app/navigation";
+	import { authClient } from '$lib/auth-client';
+	import { goto } from '$app/navigation';
 	import ThemeSwitcher from './ThemeSwitcher.svelte';
 	import {
 		DropdownMenu,
@@ -10,26 +10,35 @@
 		DropdownMenuSeparator,
 		DropdownMenuTrigger
 	} from '$lib/components/ui/dropdown-menu';
-	import type { User } from "$lib/types";
+	import type { User } from '$lib/types';
 	import { Avatar, AvatarImage, AvatarFallback } from '$lib/components/ui/avatar';
+	import ShieldIcon from '@lucide/svelte/icons/shield';
 
 	let { user }: { user: User | null } = $props();
 
 	async function handleSignOut() {
-		await authClient.signOut({}, {
-			onSuccess: () => {
-				goto("/", { invalidateAll: true });
+		await authClient.signOut(
+			{},
+			{
+				onSuccess: () => {
+					goto('/', { invalidateAll: true });
+				}
 			}
-		});
+		);
 	}
 </script>
 
-<header class="bg-white/75 dark:bg-black/75 backdrop-blur-sm shadow-sm border-b border-border sticky top-0 z-10">
-	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-		<div class="flex justify-between items-center h-16">
+<header
+	class="border-border sticky top-0 z-10 border-b bg-white/75 shadow-sm backdrop-blur-sm dark:bg-black/75"
+>
+	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+		<div class="flex h-16 items-center justify-between">
 			<!-- App Name -->
 			<div class="flex items-center">
-				<a href="/" class="text-xl font-bold text-foreground hover:text-muted-foreground font-integral">
+				<a
+					href="/"
+					class="text-foreground hover:text-muted-foreground font-integral text-xl font-bold"
+				>
 					DEMO STORE
 				</a>
 			</div>
@@ -38,12 +47,12 @@
 			<div class="flex items-center space-x-4">
 				<!-- Theme Switcher -->
 				<ThemeSwitcher />
-				
+
 				{#if user}
 					<!-- User Dropdown Menu -->
 					<DropdownMenu>
 						<DropdownMenuTrigger>
-							<Avatar class="w-8 h-8 cursor-pointer">
+							<Avatar class="h-8 w-8 cursor-pointer">
 								{#if user.image}
 									<AvatarImage src={user.image} alt={user.name || user.email} />
 								{/if}
@@ -62,6 +71,14 @@
 							<DropdownMenuItem>
 								<a href="/my-account" class="w-full">My Account</a>
 							</DropdownMenuItem>
+							{#if user.role === 'admin' || user.role === 'owner'}
+								<DropdownMenuItem>
+									<a href="/admin" class="flex w-full items-center">
+										<ShieldIcon class="mr-2 h-4 w-4" />
+										Admin Panel
+									</a>
+								</DropdownMenuItem>
+							{/if}
 							<DropdownMenuSeparator />
 							<DropdownMenuItem variant="destructive" onclick={handleSignOut}>
 								Sign out
@@ -72,7 +89,7 @@
 					<!-- Sign In Button -->
 					<a
 						href="/signin"
-						class="bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors"
+						class="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-2 text-sm font-medium transition-colors"
 					>
 						Sign In
 					</a>
@@ -80,4 +97,4 @@
 			</div>
 		</div>
 	</div>
-</header> 
+</header>

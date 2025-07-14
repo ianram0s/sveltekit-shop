@@ -1,12 +1,9 @@
-import auth from "$lib/server/auth";
-import type { User } from "$lib/types";
+import { AuthService } from "@/server/services/authService";
 
 export async function load({ request }) {
-	const session = await auth.api.getSession({
-		headers: request.headers
-	});
-	
+	const user = await AuthService.getAuthenticatedUser(request);
+
 	return {
-		user: session?.user as User | null
+		user
 	};
 } 
