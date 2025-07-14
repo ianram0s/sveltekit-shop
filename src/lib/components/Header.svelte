@@ -11,6 +11,7 @@
 		DropdownMenuTrigger
 	} from '$lib/components/ui/dropdown-menu';
 	import type { User } from "$lib/types";
+	import { Avatar, AvatarImage, AvatarFallback } from '$lib/components/ui/avatar';
 
 	let { user }: { user: User | null } = $props();
 
@@ -42,19 +43,16 @@
 					<!-- User Dropdown Menu -->
 					<DropdownMenu>
 						<DropdownMenuTrigger>
-							<div class="w-8 h-8 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity cursor-pointer overflow-hidden">
+							<Avatar class="w-8 h-8 cursor-pointer">
 								{#if user.image}
-									<img 
-										src={user.image} 
-										alt={user.name || user.email}
-										class="w-full h-full object-cover rounded-full"
-									/>
-								{:else}
-								<span class="text-primary-foreground text-sm font-medium">
-									{user.email.charAt(0).toUpperCase()}
-								</span>
+									<AvatarImage src={user.image} alt={user.name || user.email} />
 								{/if}
-							</div>
+								<AvatarFallback class="bg-primary text-primary-foreground">
+									<span>
+										{user.email.charAt(0).toUpperCase()}
+									</span>
+								</AvatarFallback>
+							</Avatar>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent>
 							<DropdownMenuLabel>
