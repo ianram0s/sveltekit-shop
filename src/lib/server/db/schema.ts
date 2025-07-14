@@ -4,12 +4,13 @@ export const user = pgTable("user", {
 	id: text('id').primaryKey(),
 	name: text('name').notNull(),
 	email: text('email').notNull().unique(),
-	emailVerified: boolean('email_verified').$defaultFn(() => false).notNull(),
+	emailVerified: boolean('email_verified').default(false).notNull(),
 	image: text('image'),
 	phone: text('phone'),
 	dateOfBirth: date('date_of_birth'),
-	createdAt: timestamp('created_at').$defaultFn(() => /* @__PURE__ */ new Date()).notNull(),
-	updatedAt: timestamp('updated_at').$defaultFn(() => /* @__PURE__ */ new Date()).notNull()
+	role: text('role', { enum: ['user', 'admin', 'owner'] }).notNull().default('user'),
+	createdAt: timestamp('created_at').defaultNow().notNull(),
+	updatedAt: timestamp('updated_at').defaultNow().notNull()
 });
 
 export const address = pgTable("address", {
@@ -20,10 +21,10 @@ export const address = pgTable("address", {
 	state: text('state').notNull(),
 	zipCode: text('zip_code').notNull(),
 	country: text('country').notNull(),
-	isDefault: boolean('is_default').$defaultFn(() => false).notNull(),
+	isDefault: boolean('is_default').default(false).notNull(),
 	label: text('label'),
-	createdAt: timestamp('created_at').$defaultFn(() => /* @__PURE__ */ new Date()).notNull(),
-	updatedAt: timestamp('updated_at').$defaultFn(() => /* @__PURE__ */ new Date()).notNull()
+	createdAt: timestamp('created_at').defaultNow().notNull(),
+	updatedAt: timestamp('updated_at').defaultNow().notNull()
 });
 
 export const session = pgTable("session", {
@@ -58,10 +59,17 @@ export const verification = pgTable("verification", {
 	identifier: text('identifier').notNull(),
 	value: text('value').notNull(),
 	expiresAt: timestamp('expires_at').notNull(),
-	createdAt: timestamp('created_at').$defaultFn(() => /* @__PURE__ */ new Date()),
-	updatedAt: timestamp('updated_at').$defaultFn(() => /* @__PURE__ */ new Date())
+	createdAt: timestamp('created_at').defaultNow(),
+	updatedAt: timestamp('updated_at').defaultNow()
+});
+
+export const seeder = pgTable("seeder", {
+	id: text('id').primaryKey(),
+	name: text('name').notNull().unique(),
+	executedAt: timestamp('executed_at').defaultNow().notNull()
 });
 
 export type Session = typeof session.$inferSelect;
 export type User = typeof user.$inferSelect;
 export type Address = typeof address.$inferSelect;
+export type Seeder = typeof seeder.$inferSelect;
