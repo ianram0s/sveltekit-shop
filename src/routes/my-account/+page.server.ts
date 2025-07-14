@@ -1,7 +1,6 @@
 import auth from "$lib/server/auth";
 import { redirect, fail } from "@sveltejs/kit";
-import { UserService } from "@/server/services/userService";
-import { AddressService } from "@/server/services/addressService";
+import { UserService, AddressService } from "@/server/services";
 import { superValidate, message } from 'sveltekit-superforms';
 import { zod4 } from 'sveltekit-superforms/adapters';
 import { profileFormSchema, addressFormSchema } from '@/schemas';

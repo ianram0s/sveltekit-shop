@@ -1,4 +1,4 @@
-import { AuthService, handleAuthError } from '$lib/server/services/authService';
+import { AuthService, handleAuthError } from '$lib/server/services';
 
 export async function load({ request }) {
 	try {
