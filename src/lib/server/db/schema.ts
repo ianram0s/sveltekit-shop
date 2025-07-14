@@ -63,6 +63,13 @@ export const verification = pgTable("verification", {
 	updatedAt: timestamp('updated_at').defaultNow()
 });
 
+export const seeder = pgTable("seeder", {
+	id: text('id').primaryKey(),
+	name: text('name').notNull().unique(),
+	executedAt: timestamp('executed_at').defaultNow().notNull()
+});
+
 export type Session = typeof session.$inferSelect;
 export type User = typeof user.$inferSelect;
 export type Address = typeof address.$inferSelect;
+export type Seeder = typeof seeder.$inferSelect;
