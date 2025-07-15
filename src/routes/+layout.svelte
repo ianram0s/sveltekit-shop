@@ -1,8 +1,8 @@
 <script lang="ts">
 	import '../app.css';
 	import { ModeWatcher } from 'mode-watcher';
-	import { Toaster } from "$lib/components/ui/sonner";
-	import Header from '$lib/components/Header.svelte';
+	import { Toaster } from '$lib/components/ui/sonner';
+	import { Header } from '$lib/components/layout';
 
 	let { children, data } = $props();
 </script>
@@ -10,7 +10,7 @@
 <ModeWatcher />
 <Toaster position="top-center" richColors />
 
-<div class="h-screen bg-background flex flex-col">
+<div class="bg-background flex h-screen flex-col">
 	<Header user={data.user} />
 
 	<!-- Main Content -->

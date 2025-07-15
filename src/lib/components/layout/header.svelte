@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { authClient } from '$lib/auth-client';
 	import { goto } from '$app/navigation';
-	import ThemeSwitcher from './ThemeSwitcher.svelte';
+	import { ThemeSwitcher } from '$lib/components/theme-switcher';
 	import {
 		DropdownMenu,
 		DropdownMenuContent,
