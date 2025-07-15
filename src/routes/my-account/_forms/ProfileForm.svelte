@@ -4,7 +4,7 @@
 	import { profileFormSchema, type ProfileFormInput } from '@/schemas';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { cn } from '$lib/utils';
-	import DateInput from '$lib/components/ui/DateInput.svelte';
+	import { DateInput } from '$lib/components/date-input';
 
 	import { SaveIcon, XIcon, AlertCircleIcon } from '$lib/components/icons';
 
