@@ -18,11 +18,11 @@
 	>
 		<div class="relative mx-auto flex max-w-7xl items-center justify-center px-4 sm:px-6 lg:px-8">
 			<span class="mx-auto text-sm font-medium">
-				Welcome! This is a work in progress, check out the source code on
-				<a href="https://github.com/ianram0s/store-sveltekit" class="text-blue-500">GitHub</a> 🤖
+				Welcome! This project is a work in-progress, check out the source code on
+				<a href="https://github.com/ianram0s/store-sveltekit" class="text-blue-500">GitHub</a> ✨
 			</span>
 			<button
-				class="hover:text-destructive absolute top-1/2 right-2 -translate-y-1/2 text-white dark:text-black"
+				class="hover:text-destructive absolute top-1/2 right-2 -translate-y-1/2 text-white dark:text-black cursor-pointer"
 				aria-label="Close notice"
 				onclick={() => (visible = false)}
 			>

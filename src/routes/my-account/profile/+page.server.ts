@@ -4,6 +4,7 @@ import { superValidate, message } from 'sveltekit-superforms';
 import { zod4 } from 'sveltekit-superforms/adapters';
 import { profileFormSchema, addressFormSchema } from '@/schemas';
 import { parse } from 'date-fns';
+import { formatDate } from '$lib/utils';
 
 export async function load({ parent }) {
 	const { user } = await parent();
@@ -17,7 +18,7 @@ export async function load({ parent }) {
 		name: userData?.name || '',
 		email: userData?.email || '',
 		phone: userData?.phone || '',
-		dateOfBirth: userData?.dateOfBirth || ''
+		dateOfBirth: formatDate(userData?.dateOfBirth)
 	}, zod4(profileFormSchema));
 
 	const addressForm = userAddresses[0]
@@ -57,7 +58,7 @@ export const actions = {
 			let dateOfBirth: string | undefined = undefined;
 			if (profileForm.data.dateOfBirth) {
 				const parsedDate = parse(profileForm.data.dateOfBirth, 'dd/MM/yyyy', new Date());
-				
+
 				if (isNaN(parsedDate.getTime())) {
 					return fail(400, {
 						profileForm,
