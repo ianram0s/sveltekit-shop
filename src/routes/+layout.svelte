@@ -2,13 +2,15 @@
 	import '../app.css';
 	import { ModeWatcher } from 'mode-watcher';
 	import { Toaster } from '$lib/components/ui/sonner';
-	import { Header } from '$lib/components/layout';
+	import { Header, Notice } from '$lib/components/layout';
 
 	let { children, data } = $props();
 </script>
 
 <ModeWatcher />
 <Toaster position="top-center" richColors />
+
+<Notice />
 
 <div class="bg-background flex h-screen flex-col">
 	<Header user={data.user} />
