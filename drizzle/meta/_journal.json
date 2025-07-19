@@ -36,6 +36,13 @@
       "when": 1752500297205,
       "tag": "0004_old_mole_man",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1752966000617,
+      "tag": "0005_ambitious_giant_man",
+      "breakpoints": true
     }
   ]
 }
