@@ -67,7 +67,8 @@
 		"date-fns": "^4.1.0",
 		"drizzle-orm": "^0.40.0",
 		"mode-watcher": "^1.1.0",
-		"postgres": "^3.4.5"
+		"postgres": "^3.4.5",
+		"svelte-range-slider-pips": "^4.0.7"
 	},
 	"pnpm": {
 		"onlyBuiltDependencies": [

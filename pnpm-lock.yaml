@@ -35,6 +35,9 @@ importers:
       postgres:
         specifier: ^3.4.5
         version: 3.4.7
+      svelte-range-slider-pips:
+        specifier: ^4.0.7
+        version: 4.0.7(svelte@5.35.6)
     devDependencies:
       '@eslint/compat':
         specifier: ^1.2.5
@@ -2252,6 +2255,11 @@ packages:
       svelte:
         optional: true
 
+  svelte-range-slider-pips@4.0.7:
+    resolution: {integrity: sha512-d4MJsuoGDkzfiTU/bk5jjZgbKe/dtAB1gTewF28+3g2GzUpUgSpA0Lox6JB0GNQVnPB46bepiXK8sO26iHvTZA==}
+    peerDependencies:
+      svelte: ^4.2.7 || ^5.0.0
+
   svelte-sonner@1.0.5:
     resolution: {integrity: sha512-9dpGPFqKb/QWudYqGnEz93vuY+NgCEvyNvxoCLMVGw6sDN/3oVeKV1xiEirW2E1N3vJEyj5imSBNOGltQHA7mg==}
     peerDependencies:
@@ -4300,6 +4308,10 @@ snapshots:
       postcss-scss: 4.0.9(postcss@8.5.6)
       postcss-selector-parser: 7.1.0
     optionalDependencies:
+      svelte: 5.35.6
+
+  svelte-range-slider-pips@4.0.7(svelte@5.35.6):
+    dependencies:
       svelte: 5.35.6
 
   svelte-sonner@1.0.5(svelte@5.35.6):
