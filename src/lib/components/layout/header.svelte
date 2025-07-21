@@ -13,6 +13,7 @@
 	import type { User } from '$lib/server/db/models';
 	import { Avatar, AvatarImage, AvatarFallback } from '$lib/components/ui/avatar';
 	import { ShieldIcon } from '$lib/components/icons';
+	import { ChevronDown } from '@lucide/svelte';
 
 	let { user }: { user: User | null } = $props();
 
@@ -33,14 +34,78 @@
 >
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<div class="flex h-16 items-center justify-between">
-			<!-- App Name -->
-			<div class="flex items-center">
+			<!-- App Name and Navigation -->
+			<div class="flex items-center gap-8">
 				<a
 					href="/"
 					class="text-foreground hover:text-muted-foreground font-integral text-xl font-bold"
 				>
 					DEMO STORE
 				</a>
+
+				<!-- Desktop Category Navigation -->
+				<nav class="hidden items-center gap-6 md:flex">
+					<!-- New Arrivals -->
+					<a
+						href="/new-arrivals"
+						class="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors duration-200"
+					>
+						New Arrivals
+					</a>
+
+					<!-- Tops Dropdown -->
+					<DropdownMenu>
+						<DropdownMenuTrigger
+							class="text-muted-foreground hover:text-foreground flex cursor-pointer items-center gap-1 text-sm font-medium transition-colors duration-200"
+						>
+							Tops
+							<ChevronDown class="h-4 w-4" />
+						</DropdownMenuTrigger>
+						<DropdownMenuContent>
+							<DropdownMenuItem>
+								<a href="/shirt" class="w-full">Shirt</a>
+							</DropdownMenuItem>
+							<DropdownMenuItem>
+								<a href="/t-shirt" class="w-full">T-Shirt</a>
+							</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
+
+					<!-- Bottoms -->
+					<a
+						href="/bottoms"
+						class="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors duration-200"
+					>
+						Bottoms
+					</a>
+				</nav>
+
+				<!-- Mobile Category Dropdown -->
+				<DropdownMenu>
+					<DropdownMenuTrigger
+						class="text-muted-foreground hover:text-foreground flex items-center gap-1 text-sm font-medium transition-colors duration-200 md:hidden"
+					>
+						Categories
+						<ChevronDown class="h-4 w-4" />
+					</DropdownMenuTrigger>
+					<DropdownMenuContent>
+						<DropdownMenuItem>
+							<a href="/new-arrivals" class="w-full">New Arrivals</a>
+						</DropdownMenuItem>
+						<DropdownMenuSeparator />
+						<DropdownMenuLabel>Tops</DropdownMenuLabel>
+						<DropdownMenuItem>
+							<a href="/shirt" class="w-full">Shirt</a>
+						</DropdownMenuItem>
+						<DropdownMenuItem>
+							<a href="/t-shirt" class="w-full">T-Shirt</a>
+						</DropdownMenuItem>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem>
+							<a href="/bottoms" class="w-full">Bottoms</a>
+						</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
 			</div>
 
 			<!-- User Section -->
