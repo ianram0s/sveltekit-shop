@@ -30,4 +30,6 @@ export interface ProductWithCategories extends Product {
 	categories: DbCategory[];
 }
 
+export { type Category as Category } from '@/server/db/models';
+
  
