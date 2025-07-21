@@ -27,4 +27,6 @@ export {
     SunIcon,
     UserIcon,
     XIcon
-} from '@lucide/svelte/icons'; 
+} from '@lucide/svelte/icons';
+
+export { default as GoogleIcon } from './google.svelte';
