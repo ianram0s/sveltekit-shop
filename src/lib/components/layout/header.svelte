@@ -15,7 +15,7 @@
 	import { ShieldIcon } from '$lib/components/icons';
 	import { ChevronDown } from '@lucide/svelte';
 
-	let { user }: { user: User | null } = $props();
+	let { user, noticeVisible }: { user: User | null; noticeVisible: boolean } = $props();
 
 	async function handleSignOut() {
 		await authClient.signOut(
@@ -30,7 +30,8 @@
 </script>
 
 <header
-	class="border-border sticky top-0 z-10 border-b bg-white/75 shadow-sm backdrop-blur-sm dark:bg-black/75"
+	class="border-border transition-top fixed right-0 left-0 z-40 border-b bg-white/75 shadow-sm backdrop-blur-sm duration-200 dark:bg-black/75"
+	style="top: {noticeVisible ? '2rem' : '0'}"
 >
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<div class="flex h-16 items-center justify-between">
