@@ -2,7 +2,7 @@
 	import '../app.css';
 	import { ModeWatcher } from 'mode-watcher';
 	import { Toaster } from '$lib/components/ui/sonner';
-	import { Header, Notice } from '$lib/components/layout';
+	import { Header, Notice, MobileSidebar } from '$lib/components/layout';
 	import { onMount } from 'svelte';
 
 	let { children, data } = $props();
@@ -24,6 +24,8 @@
 	<Notice {noticeVisible} onClose={handleNoticeClose} />
 
 	<Header user={data.user} {noticeVisible} />
+
+	<MobileSidebar categories={data.categories} />
 
 	<!-- Main Content -->
 	<main
