@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { XIcon } from '$lib/components/icons';
 	import { slide } from 'svelte/transition';
+	import { IsMobile } from '$lib/hooks/is-mobile.svelte';
 
 	let { noticeVisible, onClose }: { noticeVisible: boolean; onClose: () => void } = $props();
+
+	const isMobile = new IsMobile();
 </script>
 
 {#if noticeVisible}
@@ -13,8 +16,13 @@
 	>
 		<div class="relative mx-auto flex max-w-7xl items-center justify-center px-4 sm:px-6 lg:px-8">
 			<span class="mx-auto text-sm font-medium">
-				Welcome! This project is a work in-progress, check out the source code on
-				<a href="https://github.com/ianram0s/store-sveltekit" class="text-blue-500">GitHub</a> ✨
+				{#if isMobile.current}
+					This is WiP! Check out the source code on
+					<a href="https://github.com/ianram0s/store-sveltekit" class="text-blue-500">GitHub</a> ✨
+				{:else}
+					Welcome! This project is a work in-progress, check out the source code on
+					<a href="https://github.com/ianram0s/store-sveltekit" class="text-blue-500">GitHub</a> ✨
+				{/if}
 			</span>
 			<button
 				class="hover:text-destructive absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer text-white dark:text-black"
