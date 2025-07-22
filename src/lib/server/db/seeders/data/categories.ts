@@ -22,5 +22,11 @@ export const categories = [
 		name: 'New Arrivals',
 		slug: 'new-arrivals',
 		description: 'Latest styles and fresh arrivals'
+	},
+	{
+		id: '5',
+		name: 'Top Selling',
+		slug: 'top-selling',
+		description: 'Our most popular and best-selling products'
 	}
 ]; 

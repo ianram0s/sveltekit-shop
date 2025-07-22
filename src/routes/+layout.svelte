@@ -28,7 +28,7 @@
 	<!-- Main Content -->
 	<main
 		class="transition-padding px-4 py-6 duration-200 sm:px-6 lg:px-8"
-		style="padding-top: {noticeVisible ? '6rem' : '4rem'}"
+		style="margin-top: {noticeVisible ? '6rem' : '4rem'}"
 	>
 		{@render children()}
 	</main>

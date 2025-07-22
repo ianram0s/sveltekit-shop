@@ -1,4 +1,3 @@
-// Consolidated color palette - 10 colors used across all products
 const AVAILABLE_COLORS = [
     { name: 'Black', hex: '#000000' },
     { name: 'White', hex: '#FFFFFF' },
@@ -21,13 +20,13 @@ export const products = [
         originalPrice: 44.99,
         images: ['/product-images/loose-fit-bermuda.png'],
         availableColors: [
-            AVAILABLE_COLORS[7], // Khaki
-            AVAILABLE_COLORS[2], // Navy
-            AVAILABLE_COLORS[3], // Gray
-            AVAILABLE_COLORS[6]  // Green
+            AVAILABLE_COLORS[7],
+            AVAILABLE_COLORS[2],
+            AVAILABLE_COLORS[3],
+            AVAILABLE_COLORS[6]
         ],
         availableSizes: ['S', 'M', 'L', 'XL', 'XXL'],
-        categoryIds: ['3'], // Bottoms
+        categoryIds: ['3', '5'],
         slug: 'loose-fit-bermuda-shorts',
         inStock: true,
         rating: 4.4,
@@ -41,13 +40,13 @@ export const products = [
         originalPrice: 99.99,
         images: ['/product-images/skinny-fit-jeans.png'],
         availableColors: [
-            AVAILABLE_COLORS[5], // Blue
-            AVAILABLE_COLORS[0], // Black
-            AVAILABLE_COLORS[9], // Light Blue
-            AVAILABLE_COLORS[2]  // Navy
+            AVAILABLE_COLORS[5],
+            AVAILABLE_COLORS[0],
+            AVAILABLE_COLORS[9],
+            AVAILABLE_COLORS[2] 
         ],
         availableSizes: ['XS', 'S', 'M', 'L', 'XL'],
-        categoryIds: ['3', '4'], // Bottoms, New Arrivals
+        categoryIds: ['3', '4', '5'],
         slug: 'skinny-fit-premium-jeans',
         inStock: true,
         rating: 4.7,
@@ -60,12 +59,12 @@ export const products = [
         currentPrice: 24.99,
         images: ['/product-images/black-striped-tshirt.png'],
         availableColors: [
-            AVAILABLE_COLORS[0], // Black
-            AVAILABLE_COLORS[1], // White
-            AVAILABLE_COLORS[3]  // Gray
+            AVAILABLE_COLORS[0],
+            AVAILABLE_COLORS[1],
+            AVAILABLE_COLORS[3]
         ],
         availableSizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-        categoryIds: ['2'], // T-Shirt
+        categoryIds: ['2', '5'],
         slug: 'classic-black-striped-tee',
         inStock: true,
         rating: 4.3,
@@ -78,13 +77,13 @@ export const products = [
         currentPrice: 49.99,
         images: ['/product-images/polo-tipping-details.png'],
         availableColors: [
-            AVAILABLE_COLORS[1], // White
-            AVAILABLE_COLORS[2], // Navy
-            AVAILABLE_COLORS[8], // Burgundy
-            AVAILABLE_COLORS[6]  // Green
+            AVAILABLE_COLORS[1],
+            AVAILABLE_COLORS[2],
+            AVAILABLE_COLORS[8],
+            AVAILABLE_COLORS[6]
         ],
         availableSizes: ['S', 'M', 'L', 'XL', 'XXL'],
-        categoryIds: ['1', '4'], // Shirt, New Arrivals
+        categoryIds: ['1', '4'],
         slug: 'polo-tipping-details-shirt',
         inStock: true,
         rating: 4.6,
@@ -98,13 +97,13 @@ export const products = [
         originalPrice: 39.99,
         images: ['/product-images/gradient-graphic-tshirt.png'],
         availableColors: [
-            AVAILABLE_COLORS[4], // Red
-            AVAILABLE_COLORS[5], // Blue
-            AVAILABLE_COLORS[6], // Green
-            AVAILABLE_COLORS[0]  // Black
+            AVAILABLE_COLORS[4],
+            AVAILABLE_COLORS[5],
+            AVAILABLE_COLORS[6],
+            AVAILABLE_COLORS[0]
         ],
         availableSizes: ['S', 'M', 'L', 'XL'],
-        categoryIds: ['2', '4'], // T-Shirt, New Arrivals
+        categoryIds: ['2', '4'],
         slug: 'gradient-graphic-tee',
         inStock: true,
         rating: 4.5,
@@ -118,13 +117,13 @@ export const products = [
         originalPrice: 69.99,
         images: ['/product-images/vertical-striped-shirt.png'],
         availableColors: [
-            AVAILABLE_COLORS[5], // Blue
-            AVAILABLE_COLORS[0], // Black
-            AVAILABLE_COLORS[1], // White
-            AVAILABLE_COLORS[9]  // Light Blue
+            AVAILABLE_COLORS[5],
+            AVAILABLE_COLORS[0],
+            AVAILABLE_COLORS[1],
+            AVAILABLE_COLORS[9]
         ],
         availableSizes: ['S', 'M', 'L', 'XL', 'XXL'],
-        categoryIds: ['1'], // Shirt
+        categoryIds: ['1', '5'],
         slug: 'vertical-striped-dress-shirt',
         inStock: true,
         rating: 4.8,
@@ -137,13 +136,13 @@ export const products = [
         currentPrice: 27.99,
         images: ['/product-images/courage-graphic-tshirt.png'],
         availableColors: [
-            AVAILABLE_COLORS[0], // Black
-            AVAILABLE_COLORS[1], // White
-            AVAILABLE_COLORS[3], // Gray
-            AVAILABLE_COLORS[2]  // Navy
+            AVAILABLE_COLORS[0],
+            AVAILABLE_COLORS[1],
+            AVAILABLE_COLORS[3],
+            AVAILABLE_COLORS[2]
         ],
         availableSizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-        categoryIds: ['2', '4'], // T-Shirt, New Arrivals
+        categoryIds: ['2', '4'],
         slug: 'courage-graphic-statement-tee',
         inStock: true,
         rating: 4.2,
@@ -156,13 +155,13 @@ export const products = [
         currentPrice: 42.99,
         images: ['/product-images/checkered-shirt.png'],
         availableColors: [
-            AVAILABLE_COLORS[5], // Blue
-            AVAILABLE_COLORS[4], // Red
-            AVAILABLE_COLORS[6], // Green
-            AVAILABLE_COLORS[0]  // Black
+            AVAILABLE_COLORS[5],
+            AVAILABLE_COLORS[4],
+            AVAILABLE_COLORS[6],
+            AVAILABLE_COLORS[0]
         ],
         availableSizes: ['S', 'M', 'L', 'XL', 'XXL'],
-        categoryIds: ['1'], // Shirt
+        categoryIds: ['1'],
         slug: 'checkered-pattern-casual-shirt',
         inStock: true,
         rating: 4.4,
@@ -176,13 +175,13 @@ export const products = [
         originalPrice: 42.99,
         images: ['/product-images/tape-details-tshirt.png'],
         availableColors: [
-            AVAILABLE_COLORS[0], // Black
-            AVAILABLE_COLORS[1], // White
-            AVAILABLE_COLORS[3], // Gray
-            AVAILABLE_COLORS[4]  // Red
+            AVAILABLE_COLORS[0],
+            AVAILABLE_COLORS[1],
+            AVAILABLE_COLORS[3],
+            AVAILABLE_COLORS[4]
         ],
         availableSizes: ['S', 'M', 'L', 'XL', 'XXL'],
-        categoryIds: ['2'], // T-Shirt
+        categoryIds: ['2', '5'],
         slug: 'tape-details-sport-tee',
         inStock: true,
         rating: 4.6,
@@ -195,13 +194,13 @@ export const products = [
         currentPrice: 26.99,
         images: ['/product-images/sleeve-stripe-tshirt.png'],
         availableColors: [
-            AVAILABLE_COLORS[1], // White
-            AVAILABLE_COLORS[3], // Gray
-            AVAILABLE_COLORS[0], // Black
-            AVAILABLE_COLORS[2]  // Navy
+            AVAILABLE_COLORS[1],
+            AVAILABLE_COLORS[3],
+            AVAILABLE_COLORS[0],
+            AVAILABLE_COLORS[2]
         ],
         availableSizes: ['XS', 'S', 'M', 'L', 'XL'],
-        categoryIds: ['2', '4'], // T-Shirt, New Arrivals
+        categoryIds: ['2', '4'],
         slug: 'sleeve-stripe-contrast-tee',
         inStock: true,
         rating: 4.3,
