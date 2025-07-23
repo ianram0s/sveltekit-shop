@@ -72,6 +72,10 @@
 		}
 	}
 
+	function handleProductClick(product: Product) {
+		goto(`/product/${product.slug}`);
+	}
+
 	afterNavigate(() => {
 		loading = false;
 	});
@@ -118,7 +122,7 @@
 					{#if data.products.length > 0}
 						<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
 							{#each data.products as product, i}
-								<ProductCard {product} index={i} />
+								<ProductCard {product} index={i} onclick={handleProductClick} />
 							{/each}
 						</div>
 					{:else}
