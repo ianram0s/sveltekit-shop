@@ -2,7 +2,7 @@
 	import '../app.css';
 	import { ModeWatcher } from 'mode-watcher';
 	import { Toaster } from '$lib/components/ui/sonner';
-	import { Header, Notice, MobileSidebar } from '$lib/components/layout';
+	import { Header, Notice, MobileSidebar, Footer } from '$lib/components/layout';
 	import { onMount } from 'svelte';
 
 	let { children, data } = $props();
@@ -20,7 +20,7 @@
 <ModeWatcher />
 <Toaster position="top-center" richColors />
 
-<div class="bg-background min-h-screen">
+<div class="bg-background flex min-h-screen flex-col">
 	<Notice {noticeVisible} onClose={handleNoticeClose} />
 
 	<Header user={data.user} {noticeVisible} />
@@ -29,9 +29,11 @@
 
 	<!-- Main Content -->
 	<main
-		class="transition-padding px-4 py-6 duration-200 sm:px-6 lg:px-8"
+		class="transition-padding flex-1 px-4 py-6 duration-200 sm:px-6 lg:px-8"
 		style="margin-top: {noticeVisible ? '6rem' : '4rem'}"
 	>
 		{@render children()}
 	</main>
+
+	<Footer />
 </div>
