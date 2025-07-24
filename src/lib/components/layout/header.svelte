@@ -2,6 +2,7 @@
 	import { authClient } from '$lib/auth-client';
 	import { goto } from '$app/navigation';
 	import { ThemeSwitcher } from '$lib/components/theme-switcher';
+	import { CartIcon } from '$lib/components/cart-icon';
 	import {
 		DropdownMenu,
 		DropdownMenuContent,
@@ -90,9 +91,17 @@
 			</div>
 
 			<!-- User Section -->
-			<div class="flex items-center space-x-4">
+			<div class="flex items-center justify-center space-x-2">
 				<!-- Theme Switcher -->
 				<ThemeSwitcher />
+
+				<!-- Cart Icon -->
+				<a 
+					href="/cart" 
+					class="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+				>
+					<CartIcon />	
+				</a>
 
 				{#if user}
 					<!-- User Dropdown Menu -->

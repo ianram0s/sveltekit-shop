@@ -24,6 +24,7 @@ export {
     SaveIcon,
     SettingsIcon,
     ShieldIcon,
+    ShoppingCartIcon,
     SunIcon,
     UserIcon,
     XIcon
