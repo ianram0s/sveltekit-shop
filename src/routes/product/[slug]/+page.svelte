@@ -2,6 +2,7 @@
 	import { fade } from 'svelte/transition';
 	import { Minus, Plus, Check } from '@lucide/svelte';
 	import type { ProductWithCategories } from '$lib/types/product';
+	import { addToCart } from '@/global-states';
 
 	let {
 		data
@@ -47,6 +48,7 @@
 			size: selectedSize,
 			quantity
 		});
+		addToCart(data.product, quantity);
 	}
 
 	function selectImage(index: number) {
