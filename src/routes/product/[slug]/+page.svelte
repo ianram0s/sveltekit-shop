@@ -3,6 +3,7 @@
 	import { Minus, Plus, Check } from '@lucide/svelte';
 	import type { ProductWithCategories } from '$lib/types/product';
 	import { addToCart } from '@/global-states';
+	import { toast } from 'svelte-sonner';
 
 	let {
 		data
@@ -41,14 +42,14 @@
 	}
 
 	function handleAddToCart() {
-		// TODO: Implement add to cart functionality
-		console.log('Adding to cart:', {
-			product: data.product.title,
-			color: selectedColor,
-			size: selectedSize,
-			quantity
-		});
-		addToCart(data.product, quantity);
+		addToCart(data.product, quantity, selectedColor, selectedSize);
+		
+		const attributes = [];
+		if (selectedSize) attributes.push(selectedSize);
+		if (selectedColor) attributes.push(selectedColor);
+		
+		const attributeText = attributes.length > 0 ? ` (${attributes.join(', ')})` : '';
+		toast.success(`${data.product.title}${attributeText} added to cart!`);
 	}
 
 	function selectImage(index: number) {

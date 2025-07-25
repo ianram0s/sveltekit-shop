@@ -3,6 +3,8 @@ import type { Product } from '$lib/types/product';
 export interface CartItem {
     product: Product;
     quantity: number;
+    selectedColor?: string;
+    selectedSize?: string;
 }
 
 export const cartState = $state({
@@ -43,29 +45,44 @@ function calculateTotals() {
     );
 }
 
-export function addToCart(product: Product, quantity: number = 1) {
+export function addToCart(product: Product, quantity: number = 1, selectedColor?: string, selectedSize?: string) {
     const existingItemIndex = cartState.items.findIndex(
-        (item) => item.product.id === product.id
+        (item) => item.product.id === product.id &&
+            item.selectedColor === selectedColor &&
+            item.selectedSize === selectedSize
     );
 
     if (existingItemIndex >= 0) {
         cartState.items[existingItemIndex].quantity += quantity;
     } else {
-        cartState.items.push({ product, quantity });
+        cartState.items.push({
+            product,
+            quantity,
+            selectedColor,
+            selectedSize
+        });
     }
 
     calculateTotals();
     saveToLocalStorage();
 }
 
-export function removeFromCart(productId: string) {
-    cartState.items = cartState.items.filter((item) => item.product.id !== productId);
+export function removeFromCart(productId: string, selectedColor?: string, selectedSize?: string) {
+    cartState.items = cartState.items.filter((item) =>
+        !(item.product.id === productId &&
+            item.selectedColor === selectedColor &&
+            item.selectedSize === selectedSize)
+    );
     calculateTotals();
     saveToLocalStorage();
 }
 
-export function updateCartQuantity(productId: string, quantity: number) {
-    const itemIndex = cartState.items.findIndex((item) => item.product.id === productId);
+export function updateCartQuantity(productId: string, quantity: number, selectedColor?: string, selectedSize?: string) {
+    const itemIndex = cartState.items.findIndex((item) =>
+        item.product.id === productId &&
+        item.selectedColor === selectedColor &&
+        item.selectedSize === selectedSize
+    );
     if (itemIndex >= 0) {
         if (quantity <= 0) {
             cartState.items.splice(itemIndex, 1);
@@ -84,7 +101,11 @@ export function clearCart() {
     saveToLocalStorage();
 }
 
-export function getItemQuantity(productId: string): number {
-    const item = cartState.items.find((item) => item.product.id === productId);
+export function getItemQuantity(productId: string, selectedColor?: string, selectedSize?: string): number {
+    const item = cartState.items.find((item) =>
+        item.product.id === productId &&
+        item.selectedColor === selectedColor &&
+        item.selectedSize === selectedSize
+    );
     return item ? item.quantity : 0;
 } 
