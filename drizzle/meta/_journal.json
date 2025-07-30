@@ -43,6 +43,13 @@
       "when": 1752966000617,
       "tag": "0005_ambitious_giant_man",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1753880123000,
+      "tag": "0006_hard_thaddeus_ross",
+      "breakpoints": true
     }
   ]
 }
