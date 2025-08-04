@@ -3,7 +3,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Separator } from '$lib/components/ui/separator';
 	import { Trash2, Minus, Plus, ShoppingBag, ArrowRight } from '@lucide/svelte';
-	import { cartState, removeFromCart, updateCartQuantity, clearCart } from '@/global-states';
+	import { cartState, removeFromCart, updateCartQuantity } from '@/global-states';
 	import { goto } from '$app/navigation';
 	import * as AlertDialog from '$lib/components/ui/alert-dialog';
 
@@ -79,7 +79,7 @@
 	}
 
 	function handleCheckout() {
-		console.log('Proceeding to checkout...');
+		goto('/checkout');
 	}
 </script>
 
@@ -96,10 +96,11 @@
 				<ShoppingBag class="text-muted-foreground mb-4 h-16 w-16" />
 				<h2 class="text-foreground mb-2 text-xl font-semibold">Your cart is empty</h2>
 				<p class="text-muted-foreground mb-6 max-w-md">
-					Looks like you haven't added any items to your cart yet. Start shopping to see some great
-					products!
+					Looks like you haven't added any items to your cart yet.
 				</p>
-				<Button onclick={handleContinueShopping} size="lg">Start Shopping</Button>
+				<Button onclick={handleContinueShopping} size="lg" class="cursor-pointer"
+					>Start Shopping</Button
+				>
 			</div>
 		{:else}
 			<div class="w-full">
@@ -250,7 +251,7 @@
 									<input
 										type="text"
 										placeholder="Add promo code"
-										class="placeholder:text-muted-foreground bg-transparent w-full min-w-0text-sm outline-none"
+										class="placeholder:text-muted-foreground min-w-0text-sm w-full bg-transparent outline-none"
 									/>
 								</div>
 								<Button
