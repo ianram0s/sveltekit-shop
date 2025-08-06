@@ -4,7 +4,7 @@ import { product } from "./product";
 
 export const order = pgTable("order", {
     id: text('id').primaryKey(),
-    userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
+    userId: text('user_id').references(() => user.id, { onDelete: 'cascade' }),
     orderNumber: text('order_number').notNull().unique(),
     status: text('status', {
         enum: ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded']
