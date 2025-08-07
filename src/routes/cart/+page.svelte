@@ -6,6 +6,7 @@
 	import { cartState, removeFromCart, updateCartQuantity } from '@/global-states';
 	import { goto } from '$app/navigation';
 	import * as AlertDialog from '$lib/components/ui/alert-dialog';
+	import { EmptyCart } from '$lib/components/empty-cart';
 
 	let showRemoveDialog = $state(false);
 	let itemToRemove = $state<{
@@ -79,7 +80,7 @@
 	}
 
 	function handleCheckout() {
-		goto('/checkout');
+		goto('/checkout/step');
 	}
 </script>
 
@@ -90,18 +91,17 @@
 
 <div class="py-1" in:fade={{ duration: 300 }}>
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-		{#if cartState.items.length === 0}
-			<!-- Empty Cart -->
+		{#if !cartState.isLoaded}
 			<div class="flex flex-col items-center justify-center py-16 text-center">
-				<ShoppingBag class="text-muted-foreground mb-4 h-16 w-16" />
-				<h2 class="text-foreground mb-2 text-xl font-semibold">Your cart is empty</h2>
-				<p class="text-muted-foreground mb-6 max-w-md">
-					Looks like you haven't added any items to your cart yet.
+				<div class="mb-4 h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+				<h2 class="text-foreground mb-2 text-xl font-semibold">Loading...</h2>
+				<p class="text-muted-foreground max-w-md">
+					Please wait while we load your cart.
 				</p>
-				<Button onclick={handleContinueShopping} size="lg" class="cursor-pointer"
-					>Start Shopping</Button
-				>
 			</div>
+		{:else if cartState.items.length === 0}
+			<!-- Empty Cart -->
+			<EmptyCart />
 		{:else}
 			<div class="w-full">
 				<h1

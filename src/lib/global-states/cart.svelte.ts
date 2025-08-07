@@ -10,7 +10,8 @@ export interface CartItem {
 export const cartState = $state({
     items: [] as CartItem[],
     totalItems: 0,
-    totalPrice: 0
+    totalPrice: 0,
+    isLoaded: false
 });
 
 if (typeof window !== 'undefined') {
@@ -25,6 +26,7 @@ if (typeof window !== 'undefined') {
             console.error('Failed to parse saved cart:', error);
         }
     }
+    cartState.isLoaded = true;
 }
 
 function saveToLocalStorage() {
