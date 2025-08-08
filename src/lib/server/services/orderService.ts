@@ -3,7 +3,7 @@ import { order, orderItem } from '../db/models';
 import { eq, desc } from 'drizzle-orm';
 import type { Order, NewOrder, OrderItem, NewOrderItem } from '../db/models';
 
-type OrderWithItems = { order: Order; items: OrderItem[] };
+export type OrderWithItems = { order: Order; items: OrderItem[] };
 
 interface OrderOptions {
     withItems?: boolean;
@@ -13,6 +13,8 @@ export class OrderService {
     /**
      * Get order by ID
      */
+    static async getOrderById(id: string, options: { withItems: true }): Promise<OrderWithItems | undefined>;
+    static async getOrderById(id: string, options?: { withItems?: false }): Promise<Order | undefined>;
     static async getOrderById(id: string, options?: OrderOptions): Promise<Order | OrderWithItems | undefined> {
         try {
             const result = await db.query.order.findFirst({
@@ -38,6 +40,8 @@ export class OrderService {
     /**
      * Get order by order number
      */
+    static async getOrderByOrderNumber(orderNumber: string, options: { withItems: true }): Promise<OrderWithItems | undefined>;
+    static async getOrderByOrderNumber(orderNumber: string, options?: { withItems?: false }): Promise<Order | undefined>;
     static async getOrderByOrderNumber(orderNumber: string, options?: OrderOptions): Promise<Order | OrderWithItems | undefined> {
         try {
             const result = await db.query.order.findFirst({
@@ -63,6 +67,8 @@ export class OrderService {
     /**
      * Get orders by user ID
      */
+    static async getOrdersByUser(userId: string, options: { withItems: true }): Promise<OrderWithItems[]>;
+    static async getOrdersByUser(userId: string, options?: { withItems?: false }): Promise<Order[]>;
     static async getOrdersByUser(userId: string, options?: OrderOptions): Promise<Order[] | (OrderWithItems)[]> {
         try {
             const result = await db.query.order.findMany({

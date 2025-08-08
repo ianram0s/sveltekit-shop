@@ -1,6 +1,7 @@
 export {
     AlertCircleIcon,
     ArrowLeftIcon,
+    ArrowRightIcon,
     CalendarIcon,
     CheckIcon,
     ChevronDownIcon,

@@ -8,13 +8,7 @@
 
 	let { data } = $props();
 
-	const actualOrder = $derived(() => {
-		if (!data?.order) return null;
-		if ('order' in data.order) {
-			return data.order.order;
-		}
-		return data.order;
-	});
+    const actualOrder = $derived(() => data?.order ?? null);
 
 	const orderNumber = $derived(() => actualOrder()?.orderNumber || 'ORDER-CONFIRMED');
 
