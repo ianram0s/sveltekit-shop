@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { authClient } from '$lib/auth-client';
 	import { goto } from '$app/navigation';
-	import { ThemeSwitcher } from '$lib/components/theme-switcher';
+    
 	import { CartIcon } from '$lib/components/cart-icon';
 	import {
 		DropdownMenu,
@@ -13,10 +13,14 @@
 	} from '$lib/components/ui/dropdown-menu';
 	import type { User } from '$lib/server/db/models';
 	import { Avatar, AvatarImage, AvatarFallback } from '$lib/components/ui/avatar';
-	import { ShieldIcon } from '$lib/components/icons';
+    import { ShieldIcon, UserIcon } from '$lib/components/icons';
 	import { ChevronDown, Menu } from '@lucide/svelte';
 
-	let { user, noticeVisible }: { user: User | null; noticeVisible: boolean } = $props();
+	let {
+		user,
+		noticeVisible,
+		onToggleMobileSidebar
+	}: { user: User | null; noticeVisible: boolean; onToggleMobileSidebar: () => void } = $props();
 
 	async function handleSignOut() {
 		await authClient.signOut(
@@ -32,23 +36,22 @@
 
 <header
 	class="border-border transition-top fixed right-0 left-0 z-40 border-b bg-white/75 shadow-sm backdrop-blur-sm duration-200 dark:bg-black/75"
-	style="top: {noticeVisible ? '2rem' : '0'}"
+	style="top: {noticeVisible ? '36px' : '0'}"
 >
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<div class="flex h-16 items-center justify-between">
-			<div class="flex items-center gap-8">
+			<div class="flex items-center gap-3 md:gap-8">
 				<button
-					class="text-muted-foreground hover:text-foreground md:hidden rounded-md p-2 transition-colors"
-					onclick={() => {
-						window.dispatchEvent(new CustomEvent('toggle-mobile-sidebar'));
-					}}
+					class="md:hidden inline-flex h-10 w-10 items-center justify-center text-foreground hover:text-muted-foreground transition-colors cursor-pointer"
+					onclick={onToggleMobileSidebar}
+					aria-label="Open menu"
 				>
-					<Menu class="h-5 w-5" />
+					<Menu class="h-7 w-7" />
 				</button>
 
 				<a
 					href="/"
-					class="text-foreground hover:text-muted-foreground font-integral text-xl font-bold"
+					class="text-foreground hover:text-muted-foreground font-integral text-xl font-bold mb-1"
 				>
 					DEMO STORE
 				</a>
@@ -90,23 +93,22 @@
 				</nav>
 			</div>
 
-			<!-- User Section -->
-			<div class="flex items-center justify-center space-x-2">
-				<!-- Theme Switcher -->
-				<ThemeSwitcher />
-
-				<!-- Cart Icon -->
-				<a 
-					href="/cart" 
-					class="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
-				>
-					<CartIcon />	
-				</a>
+            <!-- User Section -->
+            <div class="flex items-center justify-center space-x-2">
+                <!-- Cart Icon -->
+                <div class="inline-flex cursor-pointer">
+                    <a 
+                        href="/cart" 
+                        class="inline-flex h-10 w-10 items-center justify-center text-foreground hover:text-muted-foreground transition-colors"
+                    >
+                        <CartIcon size="28" /> 
+                    </a>
+                </div>
 
 				{#if user}
 					<!-- User Dropdown Menu -->
 					<DropdownMenu>
-						<DropdownMenuTrigger>
+					<DropdownMenuTrigger class="inline-flex h-10 w-10 items-center justify-center">
 							<Avatar class="h-8 w-8 cursor-pointer">
 								{#if user.image}
 									<AvatarImage src={user.image} alt={user.name || user.email} />
@@ -140,15 +142,18 @@
 							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
-				{:else}
-					<!-- Sign In Button -->
-					<a
-						href="/signin"
-						class="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-2 text-sm font-medium transition-colors"
-					>
-						Sign In
-					</a>
-				{/if}
+                {:else}
+                    <!-- Sign In Icon Button -->
+                    <div class="inline-flex cursor-pointer">
+                        <a
+                            href="/signin"
+                            aria-label="Sign in"
+                            class="inline-flex h-10 w-10 items-center justify-center text-foreground hover:text-muted-foreground transition-colors"
+                        >
+                            <UserIcon class="h-7 w-7" />
+                        </a>
+                    </div>
+                {/if}
 			</div>
 		</div>
 	</div>

@@ -90,9 +90,9 @@
 </svelte:head>
 
 <div class="py-1" in:fade={{ duration: 300 }}>
-	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-		{#if !cartState.isLoaded}
-			<div class="flex flex-col items-center justify-center py-16 text-center">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {#if !cartState.isLoaded}
+            <div class="flex flex-col items-center justify-center py-16 text-center">
 				<div class="mb-4 h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
 				<h2 class="text-foreground mb-2 text-xl font-semibold">Loading...</h2>
 				<p class="text-muted-foreground max-w-md">
@@ -101,15 +101,17 @@
 			</div>
 		{:else if cartState.items.length === 0}
 			<!-- Empty Cart -->
-			<EmptyCart />
+            <div class="grid min-h-[60vh] place-items-center">
+                <EmptyCart />
+            </div>
 		{:else}
-			<div class="w-full">
+            <div class="w-full">
 				<h1
 					class="font-integral text-foreground mb-6 text-[2rem] font-bold uppercase lg:text-[2.5rem]"
 				>
 					Your Cart
 				</h1>
-				<div class="w-full gap-8 lg:grid lg:grid-cols-[57%_43%]">
+                <div class="w-full gap-8 lg:grid lg:grid-cols-[57%_43%]">
 					<!-- Cart Items -->
 					<div class="w-full">
 						<div class="border-border bg-card rounded-lg border p-4 lg:p-6">

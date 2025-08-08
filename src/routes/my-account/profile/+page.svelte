@@ -70,7 +70,7 @@
 				<h3 class="text-foreground text-lg font-medium">Personal Information</h3>
 				{#if !isEditing || isEditing !== 'profile'}
 					<button
-						class={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
+						class={cn(buttonVariants({ variant: 'outline', size: 'sm' }), 'cursor-pointer')}
 						onclick={() => (isEditing = 'profile')}
 					>
 						<EditIcon class="mr-2 h-4 w-4" />
@@ -127,7 +127,7 @@
 				<h3 class="text-foreground text-lg font-medium">Shipping Address</h3>
 				{#if !isEditing || isEditing !== 'address'}
 					<button
-						class={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
+						class={cn(buttonVariants({ variant: 'outline', size: 'sm' }), 'cursor-pointer')}
 						onclick={() => (isEditing = 'address')}
 					>
 						<EditIcon class="mr-2 h-4 w-4" />

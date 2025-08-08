@@ -81,7 +81,7 @@
 	type="button"
 	onclick={onSubmit}
 	disabled={isLoading}
-	class="text-primary-foreground bg-primary hover:bg-primary/90 focus:ring-ring disabled:hover:bg-primary flex w-full transform justify-center rounded-md border border-transparent px-4 py-2.5 text-sm font-medium shadow-sm transition-all duration-200 hover:scale-[1.02] focus:ring-2 focus:ring-offset-2 focus:outline-none active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+    class="text-primary-foreground bg-primary hover:bg-primary/90 focus:ring-ring disabled:hover:bg-primary flex w-full transform justify-center rounded-md border border-transparent px-4 py-2.5 text-sm font-medium shadow-sm transition-all duration-200 hover:scale-[1.02] focus:ring-2 focus:ring-offset-2 focus:outline-none active:scale-[0.98] cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
 >
 	{#if isLoading}
 		<div

@@ -77,7 +77,7 @@
 
 					<AlertDialog.Root bind:open={showSignOutDialog}>
 						<AlertDialog.Trigger
-							class="text-muted-foreground hover:text-foreground hover:bg-accent flex w-full items-center space-x-3 rounded-lg px-4 py-3 text-left transition-all duration-200"
+						class="text-muted-foreground hover:text-foreground hover:bg-accent flex w-full items-center space-x-3 rounded-lg px-4 py-3 text-left transition-all duration-200 cursor-pointer"
 						>
 							<LogOutIcon class="h-5 w-5" />
 							<span class="font-medium">Sign Out</span>
@@ -91,8 +91,8 @@
 								</AlertDialog.Description>
 							</AlertDialog.Header>
 							<AlertDialog.Footer>
-								<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-								<AlertDialog.Action onclick={handleSignOut}>Sign Out</AlertDialog.Action>
+								<AlertDialog.Cancel class="cursor-pointer">Cancel</AlertDialog.Cancel>
+								<AlertDialog.Action class="cursor-pointer" onclick={handleSignOut}>Sign Out</AlertDialog.Action>
 							</AlertDialog.Footer>
 						</AlertDialog.Content>
 					</AlertDialog.Root>

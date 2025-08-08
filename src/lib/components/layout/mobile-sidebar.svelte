@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte';
 	import { X } from '@lucide/svelte';
 	import * as Sheet from '$lib/components/ui/sheet';
 	import type { Category } from '$lib/types/product';
 
-	let { categories }: { categories: Category[] } = $props();
-	let sidebarOpen = $state(false);
+	let {
+		categories,
+		open = $bindable(false)
+	}: { categories: Category[]; open?: boolean } = $props();
 
 	const currentPath = $derived(page.url.pathname);
 
@@ -17,32 +18,16 @@
 
 	function handleCategoryClick(slug: string) {
 		goto(`/${slug}`);
-		sidebarOpen = false;
+		open = false;
 	}
 
 	function handleHomeClick() {
 		goto('/');
-		sidebarOpen = false;
+		open = false;
 	}
-
-	function handleToggleSidebar() {
-		sidebarOpen = !sidebarOpen;
-	}
-
-	onMount(() => {
-		const handleToggleEvent = () => {
-			handleToggleSidebar();
-		};
-
-		window.addEventListener('toggle-mobile-sidebar', handleToggleEvent);
-
-		return () => {
-			window.removeEventListener('toggle-mobile-sidebar', handleToggleEvent);
-		};
-	});
 </script>
 
-<Sheet.Root bind:open={sidebarOpen}>
+<Sheet.Root bind:open={open}>
 	<Sheet.Content
 		side="left"
 		class="bg-sidebar text-sidebar-foreground w-80 p-0 [&>button]:hidden md:hidden"
@@ -58,7 +43,7 @@
 				</a>
 				<button
 					class="text-muted-foreground hover:text-foreground rounded-md p-2 transition-colors"
-					onclick={() => (sidebarOpen = false)}
+					onclick={() => (open = false)}
 				>
 					<X class="h-5 w-5" />
 				</button>

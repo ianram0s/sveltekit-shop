@@ -7,6 +7,7 @@
 
 	let { children, data } = $props();
 	let noticeVisible = $state(false);
+	let mobileSidebarOpen = $state(false);
 
 	onMount(() => {
 		setTimeout(() => (noticeVisible = true), 600);
@@ -23,9 +24,13 @@
 <div class="bg-background flex min-h-screen flex-col">
 	<Notice {noticeVisible} onClose={handleNoticeClose} />
 
-	<Header user={data.user} {noticeVisible} />
+	<Header
+		user={data.user}
+		{noticeVisible}
+		onToggleMobileSidebar={() => (mobileSidebarOpen = !mobileSidebarOpen)}
+	/>
 
-	<MobileSidebar categories={data.categories} />
+	<MobileSidebar categories={data.categories} bind:open={mobileSidebarOpen} />
 
 	<!-- Main Content -->
 	<main

@@ -117,7 +117,7 @@
 	}
 </script>
 
-<div class="flex h-full items-center justify-center">
+<div class="grid min-h-[70vh] place-items-center">
 	<div class="w-full max-w-md space-y-8" in:fade={{ duration: 300, easing: quintOut }}>
 		<div class="text-center">
 			<h2 class="text-foreground font-integral text-3xl font-bold transition-all duration-300">
@@ -125,9 +125,9 @@
 			</h2>
 			<p class="text-muted-foreground mt-2 text-sm transition-all duration-300">
 				{isLogin ? "Don't have an account?" : 'Already have an account?'}
-				<button
+                <button
 					type="button"
-					class="text-primary hover:text-primary/80 font-medium transition-colors duration-200"
+                    class="text-primary hover:text-primary/80 font-medium transition-colors duration-200 cursor-pointer"
 					onclick={toggleMode}
 				>
 					{isLogin ? 'Sign up' : 'Sign in'}

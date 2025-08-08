@@ -31,7 +31,9 @@
 
 		<div class="mb-8 overflow-hidden">
 			<div class="flex justify-center">
-				<div class="scrollbar-hide flex max-w-full gap-4 overflow-x-auto pb-4">
+				<div
+					class="scrollbar-hide flex max-w-full gap-4 overflow-x-auto pr-4 pb-4 lg:overflow-x-hidden"
+				>
 					{#each showcaseProducts as product, index}
 						<div class="w-64 flex-shrink-0 md:w-64 lg:w-72 xl:w-80">
 							<ProductCard {product} {index} onclick={handleProductClick} />

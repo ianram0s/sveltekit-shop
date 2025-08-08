@@ -149,7 +149,7 @@
 		<button
 			type="submit"
 			disabled={$submitting || !hasChanges}
-			class={cn(buttonVariants({ variant: 'default' }))}
+			class={cn(buttonVariants({ variant: 'default' }), 'cursor-pointer')}
 		>
 			{#if $submitting}
 				<div
@@ -160,7 +160,7 @@
 			{/if}
 			Save Address
 		</button>
-		<button type="button" class={cn(buttonVariants({ variant: 'outline' }))} onclick={onCancel}>
+		<button type="button" class={cn(buttonVariants({ variant: 'outline' }), 'cursor-pointer')} onclick={onCancel}>
 			<XIcon class="mr-2 h-4 w-4" />
 			Cancel
 		</button>
