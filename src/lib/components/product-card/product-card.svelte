@@ -2,6 +2,7 @@
 	import { fly } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 	import type { Product } from '$lib/types/product';
+    import { ikUrl, ikSrcSet } from '$lib/images';
 
 	interface Props {
 		product: Product;
@@ -34,8 +35,12 @@
 		class="mb-4 flex aspect-square w-full items-center justify-center overflow-hidden rounded-xl"
 	>
 		<img
-			src={product.images[0]}
+			src={ikUrl(product.images[0], { w: 512 })}
+			srcset={ikSrcSet(product.images[0])}
+			sizes="(max-width: 768px) 50vw, 25vw"
 			alt={product.title}
+			loading="lazy"
+			decoding="async"
 			class="bg-muted h-75 w-75 rounded-xl object-contain transition-transform duration-300 hover:scale-105"
 		/>
 	</div>

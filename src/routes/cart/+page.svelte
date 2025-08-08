@@ -7,6 +7,7 @@
 	import { goto } from '$app/navigation';
 	import * as AlertDialog from '$lib/components/ui/alert-dialog';
 	import { EmptyCart } from '$lib/components/empty-cart';
+    import { ikUrl, ikSrcSet } from '$lib/images';
 
 	let showRemoveDialog = $state(false);
 	let itemToRemove = $state<{
@@ -121,11 +122,15 @@
 									<div
 										class="bg-muted aspect-squar size-25 flex-shrink-0 overflow-hidden rounded-md lg:size-31"
 									>
-										<img
-											src={item.product.images[0]}
-											alt={item.product.title}
-											class="h-full w-full object-cover"
-										/>
+                                    <img
+                                        src={ikUrl(item.product.images[0], { w: 256 })}
+                                        srcset={ikSrcSet(item.product.images[0], [160, 192, 224, 256, 320])}
+                                        sizes="160px"
+                                        alt={item.product.title}
+                                        loading="lazy"
+                                        decoding="async"
+                                        class="h-full w-full object-cover"
+                                    />
 									</div>
 
 									<!-- Product Details -->
