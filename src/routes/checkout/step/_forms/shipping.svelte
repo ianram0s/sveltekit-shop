@@ -16,6 +16,7 @@
 	} = $props();
 
 	let storageError = $state<string | null>(null);
+	let isProcessing = $state(false);
 
 	const { form, errors, enhance, submitting } = superForm(formData, {
 		validators: zod4Client(shippingFormSchema),
@@ -28,6 +29,7 @@
 						onError: (error) => {
 							console.error('Failed to save shipping data:', error);
 							storageError = 'Failed to save shipping information. Please try again.';
+							isProcessing = false;
 						}
 					});
 
@@ -39,6 +41,8 @@
 				} else {
 					goto('/checkout/step/payment');
 				}
+			} else {
+				isProcessing = false;
 			}
 		}
 	});
@@ -101,7 +105,7 @@
 	</div>
 {/if}
 
-<form method="post" action="?/validateShipping" use:enhance>
+<form method="post" action="?/validateShipping" use:enhance onsubmit={() => (isProcessing = true)}>
 	<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 		<div class="md:col-span-2">
 			<label for="address" class="text-foreground mb-2 block text-sm font-medium"
@@ -235,15 +239,16 @@
 			onclick={() => goto('/checkout/step/customer')}
 			class="cursor-pointer"
 		>
-			Back to Customer Info
+			<span class="md:hidden">Back</span>
+			<span class="hidden md:inline">Back to Customer Info</span>
 		</Button>
 		<Button
 			type="submit"
-			disabled={$submitting}
+			disabled={$submitting || isProcessing}
 			class="bg-primary text-primary-foreground flex cursor-pointer items-center justify-center"
 		>
-			{#if $submitting}
-				Processing...
+			{#if isProcessing || $submitting}
+				<span class="mr-0 h-4 w-4 animate-spin rounded-full border-2 border-t-transparent"></span>
 			{:else}
 				Continue to Payment
 			{/if}

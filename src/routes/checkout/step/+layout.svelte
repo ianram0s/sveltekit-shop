@@ -248,19 +248,19 @@
 						<div class="w-full max-w-md md:hidden">
 							<div class="mb-4 flex items-center justify-between">
 								{#each Array.from({ length: totalSteps }, (_, i) => i + 1) as step}
-									<div class="flex flex-1 items-center">
+									<div class={`flex items-center ${step < totalSteps ? 'flex-1' : ''}`}>
 										<button
 											onclick={() => goToStep(step)}
 											class="relative z-10 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 transition-all duration-200 {currentStep() >=
 											step
 												? 'border-primary bg-primary text-primary-foreground shadow-sm'
 												: 'border-border bg-background text-muted-foreground'} {currentStep() > step
-												? 'bg-primary/10 border-primary/50'
+												? 'bg-primary border-primary'
 												: ''}"
 											disabled={currentStep() < step}
 										>
 											{#if currentStep() > step}
-												<Check class="text-success h-5 w-5" />
+												<Check class="h-6 w-6" />
 											{:else}
 												<span class="text-sm font-semibold">{step}</span>
 											{/if}
@@ -302,7 +302,7 @@
 				</div>
 
 				<!-- Order Summary Sidebar -->
-				<div class="lg:col-span-1">
+				<div class="hidden lg:col-span-1 lg:block">
 					<div class="bg-card border-border sticky top-4 rounded-lg border p-6">
 						<h2 class="mb-4 text-xl font-semibold">Order Summary</h2>
 

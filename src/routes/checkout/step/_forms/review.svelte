@@ -27,6 +27,7 @@
 	let isValidating = $state(false);
 	let dataLoaded = $state(false);
 	let storageError = $state<string | null>(null);
+	let isProcessing = $state(false);
 
 	const { form, errors, enhance, submitting } = superForm(formData, {
 		validators: zod4(reviewFormSchema),
@@ -35,6 +36,8 @@
 		onUpdated: ({ form }) => {
 			if (form.valid && validationErrors.length === 0) {
 				submitOrder();
+			} else {
+				isProcessing = false;
 			}
 		}
 	});
@@ -101,11 +104,13 @@
 				onError: (error) => {
 					console.error('Failed to save review data:', error);
 					storageError = 'Failed to save review information.';
+					isProcessing = false;
 				}
 			});
 
 			if (!success) {
 				console.error('Failed to save review data');
+				isProcessing = false;
 				return;
 			}
 
@@ -132,9 +137,11 @@
 				goto(`/checkout/success?orderId=${result.orderId}`);
 			} else {
 				console.error('Order creation failed:', result.error);
+				isProcessing = false;
 			}
 		} catch (error) {
 			console.error('Error submitting order:', error);
+			isProcessing = false;
 		}
 	}
 
@@ -314,7 +321,7 @@
 		</div>
 	</div>
 
-	<form method="post" action="?/validateReview" use:enhance>
+	<form method="post" action="?/validateReview" use:enhance onsubmit={() => (isProcessing = true)}>
 		<!-- Order Notes -->
 		<div>
 			<label for="orderNotes" class="text-foreground mb-2 block text-sm font-medium"
@@ -374,14 +381,19 @@
 				onclick={() => goto('/checkout/step/payment')}
 				class="cursor-pointer"
 			>
-				Back to Payment
+				<span class="md:hidden">Back</span>
+				<span class="hidden md:inline">Back to Payment</span>
 			</Button>
 			<Button
 				type="submit"
-				disabled={$submitting || validationErrors.length > 0 || isValidating}
+				disabled={$submitting || validationErrors.length > 0 || isValidating || isProcessing}
 				class="cursor-pointer"
 			>
-				{$submitting ? 'Processing Order...' : 'Place Order'}
+				{#if isProcessing || $submitting}
+					<span class="mr-0 h-4 w-4 animate-spin rounded-full border-2 border-t-transparent"></span>
+				{:else}
+					Place Order
+				{/if}
 			</Button>
 		</div>
 	</form>

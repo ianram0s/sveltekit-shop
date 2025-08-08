@@ -190,28 +190,5 @@
 				</div>
 			</div>
 		</div>
-
-		<!-- Order Summary (Mobile) -->
-		<div class="mt-8 lg:hidden">
-			<div class="bg-card border-border rounded-lg border p-6">
-				<h2 class="mb-4 text-xl font-semibold">Order Summary</h2>
-
-				<div class="space-y-3">
-					<div class="flex justify-between">
-						<span class="text-muted-foreground">Subtotal</span>
-						<span>${actualOrder()?.subtotal || '0.00'}</span>
-					</div>
-					<div class="flex justify-between">
-						<span class="text-muted-foreground">Shipping</span>
-						<span>${actualOrder()?.shipping || '0.00'}</span>
-					</div>
-					<Separator />
-					<div class="flex justify-between font-semibold">
-						<span>Total</span>
-						<span>${actualOrder()?.total || '0.00'}</span>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 </div>

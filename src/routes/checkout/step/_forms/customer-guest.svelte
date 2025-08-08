@@ -15,6 +15,7 @@
 	} = $props();
 
 	let storageError = $state<string | null>(null);
+	let isProcessing = $state(false);
 
 	const { form, errors, enhance, submitting } = superForm(formData, {
 		validators: zod4Client(customerFormSchema),
@@ -27,6 +28,7 @@
 						onError: (error) => {
 							console.error('Failed to save customer data:', error);
 							storageError = 'Failed to save customer information. Please try again.';
+							isProcessing = false;
 						}
 					});
 
@@ -38,6 +40,8 @@
 				} else {
 					goto('/checkout/step/shipping');
 				}
+			} else {
+				isProcessing = false;
 			}
 		}
 	});
@@ -90,7 +94,7 @@
 	</div>
 {/if}
 
-<form method="post" action="?/validateCustomer" use:enhance>
+<form method="post" action="?/validateCustomer" use:enhance onsubmit={() => (isProcessing = true)}>
 	<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
 		<div>
 			<label for="firstName" class="text-foreground mb-2 block text-sm font-medium"
@@ -184,11 +188,11 @@
 	<div class="mt-8 flex justify-end">
 		<Button
 			type="submit"
-			disabled={$submitting}
+			disabled={$submitting || isProcessing}
 			class="bg-primary text-primary-foreground flex cursor-pointer items-center justify-center"
 		>
-			{#if $submitting}
-				Processing...
+			{#if isProcessing || $submitting}
+				<span class="mr-0 h-4 w-4 animate-spin rounded-full border-2 border-t-transparent"></span>
 			{:else}
 				Continue to Shipping
 			{/if}
