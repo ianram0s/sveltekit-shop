@@ -6,7 +6,6 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import { PackageIcon, ArrowLeftIcon, CalendarIcon, MapPinIcon } from '$lib/components/icons';
 	import { goto } from '$app/navigation';
-    import { ikUrl, ikSrcSet } from '$lib/images';
 
 	let { data } = $props();
 
@@ -76,16 +75,12 @@ function formatPaymentMethod(method?: string | null): string {
 					{#each data.order.items as item}
 						<div class="flex flex-col gap-4 p-4 md:flex-row md:items-center md:justify-between">
 							<div class="flex items-center gap-3">
-                                {#if item.productImage}
-                                    <img
-                                        src={ikUrl(item.productImage, { w: 128 })}
-                                        srcset={ikSrcSet(item.productImage, [96, 128, 160, 192])}
-                                        sizes="96px"
-                                        alt={item.productTitle}
-                                        loading="lazy"
-                                        decoding="async"
-                                        class="bg-muted h-16 w-16 rounded-md object-cover"
-                                    />
+								{#if item.productImage}
+									<img
+										src={item.productImage}
+										alt={item.productTitle}
+										class="bg-muted h-16 w-16 rounded-md object-cover"
+									/>
 								{:else}
 									<div
 										class="bg-muted text-muted-foreground flex h-16 w-16 items-center justify-center rounded-md"

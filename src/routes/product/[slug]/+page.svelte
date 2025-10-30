@@ -4,7 +4,6 @@
 	import type { ProductWithCategories } from '$lib/types/product';
 	import { addToCart } from '@/global-states';
 	import { toast } from 'svelte-sonner';
-    import { ikUrl, ikSrcSet } from '$lib/images';
 
 	let {
 		data
@@ -71,12 +70,8 @@
 			<div class="flex-1">
 				<div class="bg-muted aspect-square overflow-hidden rounded-2xl">
 					<img
-						src={ikUrl(data.product.images[selectedImageIndex], { w: 1024 })}
-						srcset={ikSrcSet(data.product.images[selectedImageIndex])}
-						sizes="(max-width: 1024px) 100vw, 50vw"
+						src={data.product.images[selectedImageIndex]}
 						alt={data.product.title}
-						fetchpriority="high"
-						decoding="async"
 						class="h-full w-full object-cover"
 					/>
 				</div>
@@ -93,12 +88,8 @@
 						onclick={() => selectImage(index)}
 					>
 						<img
-							src={ikUrl(image, { w: 160 })}
-							srcset={ikSrcSet(image, [80, 120, 160, 240])}
-							sizes="80px"
+							src={image}
 							alt={`${data.product.title} - View ${index + 1}`}
-							loading="lazy"
-							decoding="async"
 							class="h-full w-full object-cover"
 						/>
 					</button>
