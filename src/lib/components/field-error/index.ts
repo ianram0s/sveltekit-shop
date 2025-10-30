@@ -1,4 +1,4 @@
 import FieldError from './field-error.svelte';
 
 export { FieldError };
-export default FieldError; 
+export default FieldError;

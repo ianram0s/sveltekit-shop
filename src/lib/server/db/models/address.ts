@@ -1,9 +1,11 @@
-import { pgTable, text, timestamp, boolean } from "drizzle-orm/pg-core";
-import { user } from "./user";
+import { pgTable, text, timestamp, boolean } from 'drizzle-orm/pg-core';
+import { user } from './user';
 
-export const address = pgTable("address", {
+export const address = pgTable('address', {
     id: text('id').primaryKey(),
-    userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
+    userId: text('user_id')
+        .notNull()
+        .references(() => user.id, { onDelete: 'cascade' }),
     street: text('street').notNull(),
     city: text('city').notNull(),
     state: text('state').notNull(),
@@ -12,8 +14,8 @@ export const address = pgTable("address", {
     isDefault: boolean('is_default').default(false).notNull(),
     label: text('label'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
-    updatedAt: timestamp('updated_at').defaultNow().notNull()
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
 export type Address = typeof address.$inferSelect;
-export type NewAddress = typeof address.$inferInsert; 
+export type NewAddress = typeof address.$inferInsert;

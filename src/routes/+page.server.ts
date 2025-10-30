@@ -6,6 +6,6 @@ export async function load() {
 
     return {
         newArrivalsProducts,
-        topSellingProducts
+        topSellingProducts,
     };
-} 
+}

@@ -1,1 +1,1 @@
-export { default as DateInput } from './date-input.svelte'; 
+export { default as DateInput } from './date-input.svelte';

@@ -6,7 +6,7 @@ export const STORAGE_VERSION = 1;
 export const STORAGE_KEYS = {
     CHECKOUT_DATA: 'checkoutData',
     CART: 'cart',
-    USER_PREFERENCES: 'userPreferences'
+    USER_PREFERENCES: 'userPreferences',
 } as const;
 
 export enum StorageError {
@@ -14,14 +14,14 @@ export enum StorageError {
     QUOTA_EXCEEDED = 'STORAGE_QUOTA_EXCEEDED',
     CORRUPTED_DATA = 'CORRUPTED_DATA',
     PARSE_ERROR = 'PARSE_ERROR',
-    VALIDATION_ERROR = 'VALIDATION_ERROR'
+    VALIDATION_ERROR = 'VALIDATION_ERROR',
 }
 
 export class StorageException extends Error {
     constructor(
         public readonly storageError: StorageError,
         message?: string,
-        public readonly originalError?: unknown
+        public readonly originalError?: unknown,
     ) {
         super(message || storageError);
         this.name = 'StorageException';
@@ -31,7 +31,7 @@ export class StorageException extends Error {
 const baseStorageSchema = z.object({
     version: z.number().default(STORAGE_VERSION),
     timestamp: z.number().default(() => Date.now()),
-    data: z.unknown()
+    data: z.unknown(),
 });
 
 type BaseStorageData = z.infer<typeof baseStorageSchema>;
@@ -69,7 +69,7 @@ export class SafeLocalStorage {
                 }
             }
 
-            keysToRemove.forEach(keyToRemove => {
+            keysToRemove.forEach((keyToRemove) => {
                 localStorage.removeItem(keyToRemove);
             });
         } catch (error) {
@@ -83,7 +83,7 @@ export class SafeLocalStorage {
             key,
             timestamp: new Date().toISOString(),
             userAgent: navigator.userAgent,
-            error: error ? String(error) : undefined
+            error: error ? String(error) : undefined,
         };
 
         console.warn('LocalStorage event:', logData);
@@ -106,7 +106,11 @@ export class SafeLocalStorage {
                 parsedData = JSON.parse(rawData);
             } catch (parseError) {
                 this.logStorageEvent('parse_error', key, parseError);
-                throw new StorageException(StorageError.PARSE_ERROR, `Failed to parse data for key: ${key}`, parseError);
+                throw new StorageException(
+                    StorageError.PARSE_ERROR,
+                    `Failed to parse data for key: ${key}`,
+                    parseError,
+                );
             }
 
             if (typeof parsedData === 'object' && parsedData !== null && 'version' in parsedData) {
@@ -127,18 +131,18 @@ export class SafeLocalStorage {
                 throw new StorageException(
                     StorageError.VALIDATION_ERROR,
                     `Data validation failed for key: ${key}`,
-                    validationResult.error
+                    validationResult.error,
                 );
             }
 
             return validationResult.data;
-
         } catch (error) {
             if (error instanceof StorageException) {
-                if (error.storageError === StorageError.CORRUPTED_DATA ||
+                if (
+                    error.storageError === StorageError.CORRUPTED_DATA ||
                     error.storageError === StorageError.PARSE_ERROR ||
-                    error.storageError === StorageError.VALIDATION_ERROR) {
-
+                    error.storageError === StorageError.VALIDATION_ERROR
+                ) {
                     this.logStorageEvent('corrupted_data_removed', key, error);
                     this.remove(key);
                     return null;
@@ -164,7 +168,7 @@ export class SafeLocalStorage {
                 throw new StorageException(
                     StorageError.VALIDATION_ERROR,
                     `Data validation failed when setting key: ${key}`,
-                    validationResult.error
+                    validationResult.error,
                 );
             }
         }
@@ -172,7 +176,7 @@ export class SafeLocalStorage {
         const versionedData: BaseStorageData = {
             version: STORAGE_VERSION,
             timestamp: Date.now(),
-            data
+            data,
         };
 
         try {
@@ -189,7 +193,11 @@ export class SafeLocalStorage {
                     localStorage.setItem(key, serialized);
                     return true;
                 } catch (retryError) {
-                    throw new StorageException(StorageError.QUOTA_EXCEEDED, `Storage quota exceeded for key: ${key}`, retryError);
+                    throw new StorageException(
+                        StorageError.QUOTA_EXCEEDED,
+                        `Storage quota exceeded for key: ${key}`,
+                        retryError,
+                    );
                 }
             }
 
@@ -278,7 +286,7 @@ export class SafeLocalStorage {
             }
 
             let corruptedCount = 0;
-            info.keys.forEach(key => {
+            info.keys.forEach((key) => {
                 try {
                     const value = localStorage.getItem(key);
                     if (value) {
@@ -292,7 +300,6 @@ export class SafeLocalStorage {
             if (corruptedCount > 0) {
                 issues.push(`${corruptedCount} corrupted entries found`);
             }
-
         } catch (error) {
             issues.push(`Health check failed: ${error}`);
         }
@@ -307,5 +314,5 @@ export const storage = {
     remove: (key: string) => SafeLocalStorage.remove(key),
     clear: () => SafeLocalStorage.clear(),
     getInfo: () => SafeLocalStorage.getStorageInfo(),
-    healthCheck: () => SafeLocalStorage.healthCheck()
+    healthCheck: () => SafeLocalStorage.healthCheck(),
 };

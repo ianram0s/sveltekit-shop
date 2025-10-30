@@ -7,7 +7,7 @@ export const addressFormSchema = z.object({
     zipCode: z.string().min(1, { error: 'ZIP code is required' }),
     country: z.string().min(1, { error: 'Country is required' }),
     isDefault: z.boolean().optional().default(false),
-    label: z.string().optional().nullable()
+    label: z.string().optional().nullable(),
 });
 
-export type AddressFormInput = z.infer<typeof addressFormSchema>; 
+export type AddressFormInput = z.infer<typeof addressFormSchema>;

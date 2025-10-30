@@ -18,14 +18,14 @@ export class OrderService {
     static async getOrderById(id: string, options?: OrderOptions): Promise<Order | OrderWithItems | undefined> {
         try {
             const result = await db.query.order.findFirst({
-                where: eq(order.id, id)
+                where: eq(order.id, id),
             });
 
             if (!result) return undefined;
 
             if (options?.withItems) {
                 const items = await db.query.orderItem.findMany({
-                    where: eq(orderItem.orderId, id)
+                    where: eq(orderItem.orderId, id),
                 });
                 return { order: result, items };
             }
@@ -40,19 +40,28 @@ export class OrderService {
     /**
      * Get order by order number
      */
-    static async getOrderByOrderNumber(orderNumber: string, options: { withItems: true }): Promise<OrderWithItems | undefined>;
-    static async getOrderByOrderNumber(orderNumber: string, options?: { withItems?: false }): Promise<Order | undefined>;
-    static async getOrderByOrderNumber(orderNumber: string, options?: OrderOptions): Promise<Order | OrderWithItems | undefined> {
+    static async getOrderByOrderNumber(
+        orderNumber: string,
+        options: { withItems: true },
+    ): Promise<OrderWithItems | undefined>;
+    static async getOrderByOrderNumber(
+        orderNumber: string,
+        options?: { withItems?: false },
+    ): Promise<Order | undefined>;
+    static async getOrderByOrderNumber(
+        orderNumber: string,
+        options?: OrderOptions,
+    ): Promise<Order | OrderWithItems | undefined> {
         try {
             const result = await db.query.order.findFirst({
-                where: eq(order.orderNumber, orderNumber)
+                where: eq(order.orderNumber, orderNumber),
             });
 
             if (!result) return undefined;
 
             if (options?.withItems) {
                 const items = await db.query.orderItem.findMany({
-                    where: eq(orderItem.orderId, result.id)
+                    where: eq(orderItem.orderId, result.id),
                 });
                 return { order: result, items };
             }
@@ -69,18 +78,18 @@ export class OrderService {
      */
     static async getOrdersByUser(userId: string, options: { withItems: true }): Promise<OrderWithItems[]>;
     static async getOrdersByUser(userId: string, options?: { withItems?: false }): Promise<Order[]>;
-    static async getOrdersByUser(userId: string, options?: OrderOptions): Promise<Order[] | (OrderWithItems)[]> {
+    static async getOrdersByUser(userId: string, options?: OrderOptions): Promise<Order[] | OrderWithItems[]> {
         try {
             const result = await db.query.order.findMany({
                 where: eq(order.userId, userId),
-                orderBy: [desc(order.createdAt)]
+                orderBy: [desc(order.createdAt)],
             });
 
             if (options?.withItems) {
                 const ordersWithItems: OrderWithItems[] = [];
                 for (const order of result) {
                     const items = await db.query.orderItem.findMany({
-                        where: eq(orderItem.orderId, order.id)
+                        where: eq(orderItem.orderId, order.id),
                     });
                     ordersWithItems.push({ order, items });
                 }
@@ -101,7 +110,7 @@ export class OrderService {
         try {
             const result = await db.query.order.findMany({
                 where: eq(order.status, status),
-                orderBy: [desc(order.createdAt)]
+                orderBy: [desc(order.createdAt)],
             });
             return result;
         } catch (error) {
@@ -117,7 +126,7 @@ export class OrderService {
         try {
             const result = await db.query.order.findMany({
                 where: eq(order.paymentStatus, paymentStatus),
-                orderBy: [desc(order.createdAt)]
+                orderBy: [desc(order.createdAt)],
             });
             return result;
         } catch (error) {
@@ -154,7 +163,7 @@ export class OrderService {
      */
     static async createOrderWithItems(
         orderData: NewOrder,
-        itemsData: NewOrderItem[]
+        itemsData: NewOrderItem[],
     ): Promise<{ order?: Order; items?: OrderItem[]; errors?: string[] }> {
         try {
             // Generate order number if not provided
@@ -175,9 +184,9 @@ export class OrderService {
                 const [newOrder] = await tx.insert(order).values(orderData).returning();
 
                 // Create order items
-                const itemsWithOrderId = itemsData.map(item => ({
+                const itemsWithOrderId = itemsData.map((item) => ({
                     ...item,
-                    orderId: newOrder.id
+                    orderId: newOrder.id,
                 }));
 
                 const newItems = await tx.insert(orderItem).values(itemsWithOrderId).returning();
@@ -215,7 +224,10 @@ export class OrderService {
     /**
      * Update payment status
      */
-    static async updatePaymentStatus(id: string, paymentStatus: Order['paymentStatus']): Promise<{ order?: Order; errors?: string[] }> {
+    static async updatePaymentStatus(
+        id: string,
+        paymentStatus: Order['paymentStatus'],
+    ): Promise<{ order?: Order; errors?: string[] }> {
         try {
             const [updatedOrder] = await db
                 .update(order)
@@ -240,23 +252,19 @@ export class OrderService {
     static async updateTrackingInfo(
         id: string,
         trackingNumber: string,
-        estimatedDelivery?: Date
+        estimatedDelivery?: Date,
     ): Promise<{ order?: Order; errors?: string[] }> {
         try {
             const updateData: Partial<Order> = {
                 trackingNumber,
-                updatedAt: new Date()
+                updatedAt: new Date(),
             };
 
             if (estimatedDelivery) {
                 updateData.estimatedDelivery = estimatedDelivery;
             }
 
-            const [updatedOrder] = await db
-                .update(order)
-                .set(updateData)
-                .where(eq(order.id, id))
-                .returning();
+            const [updatedOrder] = await db.update(order).set(updateData).where(eq(order.id, id)).returning();
 
             if (!updatedOrder) {
                 return { errors: ['Order not found'] };
@@ -298,7 +306,10 @@ export class OrderService {
     /**
      * Update item quantity
      */
-    static async updateItemQuantity(itemId: string, quantity: number): Promise<{ item?: OrderItem; errors?: string[] }> {
+    static async updateItemQuantity(
+        itemId: string,
+        quantity: number,
+    ): Promise<{ item?: OrderItem; errors?: string[] }> {
         try {
             const [updatedItem] = await db
                 .update(orderItem)
@@ -323,7 +334,7 @@ export class OrderService {
     static async getAllOrders(): Promise<Order[]> {
         try {
             const result = await db.query.order.findMany({
-                orderBy: [desc(order.createdAt)]
+                orderBy: [desc(order.createdAt)],
             });
             return result;
         } catch (error) {
@@ -342,11 +353,11 @@ export class OrderService {
                     user: {
                         columns: {
                             name: true,
-                            email: true
-                        }
-                    }
+                            email: true,
+                        },
+                    },
                 },
-                orderBy: [desc(order.createdAt)]
+                orderBy: [desc(order.createdAt)],
             });
             return result;
         } catch (error) {
@@ -370,4 +381,4 @@ export class OrderService {
 
         return orderNumber;
     }
-} 
+}

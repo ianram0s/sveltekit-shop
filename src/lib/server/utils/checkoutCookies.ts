@@ -6,7 +6,7 @@ const COOKIE_OPTIONS = {
     maxAge: 60 * 60 * 24,
     httpOnly: false,
     secure: false,
-    sameSite: 'lax' as const
+    sameSite: 'lax' as const,
 };
 
 export class CheckoutCookieManager {

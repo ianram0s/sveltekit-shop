@@ -1,1 +1,1 @@
-export { default as ThemeSwitcher } from './theme-switcher.svelte'; 
+export { default as ThemeSwitcher } from './theme-switcher.svelte';

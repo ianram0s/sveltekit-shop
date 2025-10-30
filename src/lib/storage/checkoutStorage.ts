@@ -1,31 +1,28 @@
 import { z } from 'zod/v4';
-import {
-    customerFormSchema,
-    shippingFormSchema,
-    paymentFormSchema,
-    reviewFormSchema
-} from '@/schemas';
+import { customerFormSchema, shippingFormSchema, paymentFormSchema, reviewFormSchema } from '@/schemas';
 import { storage, STORAGE_KEYS, StorageException, StorageError } from './localStorage';
 import type { CheckoutData } from '$lib/types/checkout';
 
-export const checkoutDataSchema = z.object({
-    customer: customerFormSchema.optional(),
-    shipping: shippingFormSchema.optional(),
-    payment: paymentFormSchema.optional(),
-    review: reviewFormSchema.optional(),
-    stepProgress: z.array(z.enum(['customer', 'shipping', 'payment', 'review'])).default([]),
-    lastUpdated: z.number().default(() => Date.now()),
-    sessionId: z.string().optional()
-}).default(() => ({
-    stepProgress: [],
-    lastUpdated: Date.now()
-}));
+export const checkoutDataSchema = z
+    .object({
+        customer: customerFormSchema.optional(),
+        shipping: shippingFormSchema.optional(),
+        payment: paymentFormSchema.optional(),
+        review: reviewFormSchema.optional(),
+        stepProgress: z.array(z.enum(['customer', 'shipping', 'payment', 'review'])).default([]),
+        lastUpdated: z.number().default(() => Date.now()),
+        sessionId: z.string().optional(),
+    })
+    .default(() => ({
+        stepProgress: [],
+        lastUpdated: Date.now(),
+    }));
 
 export type EnhancedCheckoutData = z.infer<typeof checkoutDataSchema>;
 
 export enum RecoveryStrategy {
     RESET_ALL = 'reset_all',
-    USE_DEFAULTS = 'use_defaults'
+    USE_DEFAULTS = 'use_defaults',
 }
 
 export interface CheckoutStorageOptions {
@@ -40,7 +37,7 @@ export class CheckoutStorage {
         validateOnGet: true,
         recoveryStrategy: RecoveryStrategy.USE_DEFAULTS,
         onError: (error) => console.error('Checkout storage error:', error),
-        onRecovery: (strategy, data) => console.info('Checkout data recovered using:', strategy, data)
+        onRecovery: (strategy, data) => console.info('Checkout data recovered using:', strategy, data),
     };
 
     static getCheckoutData(options: CheckoutStorageOptions = {}): EnhancedCheckoutData {
@@ -62,7 +59,6 @@ export class CheckoutStorage {
             }
 
             return data;
-
         } catch (error) {
             if (opts.onError) {
                 opts.onError(error as StorageException);
@@ -72,10 +68,7 @@ export class CheckoutStorage {
         }
     }
 
-    static setCheckoutData(
-        data: Partial<CheckoutData>,
-        options: CheckoutStorageOptions = {}
-    ): boolean {
+    static setCheckoutData(data: Partial<CheckoutData>, options: CheckoutStorageOptions = {}): boolean {
         const opts = { ...this.defaultOptions, ...options };
 
         try {
@@ -83,7 +76,7 @@ export class CheckoutStorage {
             const updatedData: EnhancedCheckoutData = {
                 ...currentData,
                 ...data,
-                lastUpdated: Date.now()
+                lastUpdated: Date.now(),
             };
 
             if (data.customer && !currentData.stepProgress.includes('customer')) {
@@ -102,7 +95,6 @@ export class CheckoutStorage {
             const validatedData = checkoutDataSchema.parse(updatedData);
 
             return storage.set(STORAGE_KEYS.CHECKOUT_DATA, validatedData, checkoutDataSchema);
-
         } catch (error) {
             if (opts.onError) {
                 opts.onError(error as StorageException, data);
@@ -114,14 +106,14 @@ export class CheckoutStorage {
     static updateStep<T extends keyof CheckoutData>(
         step: T,
         stepData: CheckoutData[T],
-        options: CheckoutStorageOptions = {}
+        options: CheckoutStorageOptions = {},
     ): boolean {
         return this.setCheckoutData({ [step]: stepData } as Partial<CheckoutData>, options);
     }
 
     static getStepData<T extends keyof CheckoutData>(
         step: T,
-        options: CheckoutStorageOptions = {}
+        options: CheckoutStorageOptions = {},
     ): CheckoutData[T] | null {
         const data = this.getCheckoutData(options);
         return data[step] || null;
@@ -195,14 +187,13 @@ export class CheckoutStorage {
             return {
                 valid: missingSteps.length === 0 && errors.length === 0,
                 missingSteps,
-                errors
+                errors,
             };
-
         } catch (error) {
             return {
                 valid: false,
                 missingSteps: ['customer', 'shipping', 'payment', 'review'],
-                errors: [`Storage error: ${error}`]
+                errors: [`Storage error: ${error}`],
             };
         }
     }
@@ -219,8 +210,8 @@ export class CheckoutStorage {
                     timestamp: new Date().toISOString(),
                     storageInfo,
                     healthCheck,
-                    userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown'
-                }
+                    userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
+                },
             };
         } catch (error) {
             return {
@@ -230,8 +221,8 @@ export class CheckoutStorage {
                     error: String(error),
                     storageInfo,
                     healthCheck,
-                    userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown'
-                }
+                    userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
+                },
             };
         }
     }
@@ -239,7 +230,7 @@ export class CheckoutStorage {
     private static recoverData(
         strategy: RecoveryStrategy,
         _error: StorageException,
-        onRecovery?: (strategy: RecoveryStrategy, recoveredData: EnhancedCheckoutData) => void
+        onRecovery?: (strategy: RecoveryStrategy, recoveredData: EnhancedCheckoutData) => void,
     ): EnhancedCheckoutData {
         let recoveredData: EnhancedCheckoutData;
 
@@ -268,7 +259,7 @@ export class CheckoutStorage {
             if (!validMethods.includes(data.shipping.shippingMethod)) {
                 throw new StorageException(
                     StorageError.VALIDATION_ERROR,
-                    `Invalid shipping method: ${data.shipping.shippingMethod}`
+                    `Invalid shipping method: ${data.shipping.shippingMethod}`,
                 );
             }
         }
@@ -276,7 +267,7 @@ export class CheckoutStorage {
         if (data.payment?.paymentMethod && data.payment.paymentMethod !== 'cash_on_delivery') {
             throw new StorageException(
                 StorageError.VALIDATION_ERROR,
-                `Invalid payment method: ${data.payment.paymentMethod}`
+                `Invalid payment method: ${data.payment.paymentMethod}`,
             );
         }
 
@@ -288,12 +279,15 @@ export class CheckoutStorage {
 
 export const checkoutStorage = {
     get: (options?: CheckoutStorageOptions) => CheckoutStorage.getCheckoutData(options),
-    set: (data: Partial<CheckoutData>, options?: CheckoutStorageOptions) => CheckoutStorage.setCheckoutData(data, options),
-    updateStep: <T extends keyof CheckoutData>(step: T, stepData: CheckoutData[T], options?: CheckoutStorageOptions) => CheckoutStorage.updateStep(step, stepData, options),
-    getStep: <T extends keyof CheckoutData>(step: T, options?: CheckoutStorageOptions) => CheckoutStorage.getStepData(step, options),
+    set: (data: Partial<CheckoutData>, options?: CheckoutStorageOptions) =>
+        CheckoutStorage.setCheckoutData(data, options),
+    updateStep: <T extends keyof CheckoutData>(step: T, stepData: CheckoutData[T], options?: CheckoutStorageOptions) =>
+        CheckoutStorage.updateStep(step, stepData, options),
+    getStep: <T extends keyof CheckoutData>(step: T, options?: CheckoutStorageOptions) =>
+        CheckoutStorage.getStepData(step, options),
     isCompleted: (step: keyof CheckoutData) => CheckoutStorage.isStepCompleted(step),
     getProgress: () => CheckoutStorage.getProgress(),
     clear: () => CheckoutStorage.clearCheckoutData(),
     validate: () => CheckoutStorage.validateForSubmission(),
-    export: () => CheckoutStorage.exportData()
+    export: () => CheckoutStorage.exportData(),
 };

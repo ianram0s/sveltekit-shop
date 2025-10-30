@@ -1,9 +1,9 @@
-import auth from "$lib/server/auth";
-import { redirect } from "@sveltejs/kit";
+import auth from '$lib/server/auth';
+import { redirect } from '@sveltejs/kit';
 
 async function getAuthenticatedUser(request: Request) {
     const session = await auth.api.getSession({
-        headers: request.headers
+        headers: request.headers,
     });
 
     if (!session?.user) {
@@ -21,6 +21,6 @@ export async function load({ request }) {
     }
 
     return {
-        user
+        user,
     };
-} 
+}

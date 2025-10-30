@@ -15,6 +15,6 @@ export async function load({ params }) {
     }
 
     return {
-        product
+        product,
     };
-} 
+}

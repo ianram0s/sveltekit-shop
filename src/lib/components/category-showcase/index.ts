@@ -1,1 +1,1 @@
-export { default as CategoryShowcase } from './category-showcase.svelte'; 
+export { default as CategoryShowcase } from './category-showcase.svelte';

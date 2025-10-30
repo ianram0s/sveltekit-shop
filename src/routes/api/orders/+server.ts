@@ -8,7 +8,7 @@ import type { CartItem } from '@/global-states';
 export async function POST({ request }) {
     try {
         const { checkoutData, cartItems }: { checkoutData: CheckoutData; cartItems: CartItem[] } = await request.json();
-        
+
         const user = await AuthService.getAuthenticatedUser(request);
 
         const validationResult = checkoutFormSchema.safeParse(checkoutData);
@@ -20,7 +20,10 @@ export async function POST({ request }) {
             return json({ success: false, error: 'Cart is empty' }, { status: 400 });
         }
 
-        const subtotal = cartItems.reduce((sum: number, item: CartItem) => sum + (Number(item.product.currentPrice) * item.quantity), 0);
+        const subtotal = cartItems.reduce(
+            (sum: number, item: CartItem) => sum + Number(item.product.currentPrice) * item.quantity,
+            0,
+        );
 
         let shippingCost = 15.0;
         if (checkoutData.shipping?.shippingMethod === 'express') {
@@ -45,7 +48,7 @@ export async function POST({ request }) {
                 city: checkoutData.shipping?.city || '',
                 state: checkoutData.shipping?.state || '',
                 zipCode: checkoutData.shipping?.zipCode || '',
-                country: checkoutData.shipping?.country || 'US'
+                country: checkoutData.shipping?.country || 'US',
             },
             billingAddress: {
                 firstName: checkoutData.customer?.firstName || '',
@@ -54,11 +57,11 @@ export async function POST({ request }) {
                 city: checkoutData.shipping?.city || '',
                 state: checkoutData.shipping?.state || '',
                 zipCode: checkoutData.shipping?.zipCode || '',
-                country: checkoutData.shipping?.country || 'US'
+                country: checkoutData.shipping?.country || 'US',
             },
             paymentMethod: 'cash_on_delivery',
             paymentStatus: 'pending' as const,
-            notes: checkoutData.review?.orderNotes || null
+            notes: checkoutData.review?.orderNotes || null,
         };
 
         const orderItems = cartItems.map((item: CartItem) => ({
@@ -73,8 +76,8 @@ export async function POST({ request }) {
             totalPrice: (Number(item.product.currentPrice) * item.quantity).toString(),
             productAttributes: {
                 selectedSize: item.selectedSize,
-                selectedColor: item.selectedColor
-            }
+                selectedColor: item.selectedColor,
+            },
         }));
 
         const result = await OrderService.createOrderWithItems(orderData, orderItems);
@@ -86,9 +89,8 @@ export async function POST({ request }) {
         return json({
             success: true,
             orderId: result.order?.id,
-            orderNumber: result.order?.orderNumber
+            orderNumber: result.order?.orderNumber,
         });
-
     } catch (error) {
         console.error('Error creating order:', error);
         return json({ success: false, error: 'Internal server error' }, { status: 500 });

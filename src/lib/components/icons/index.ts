@@ -28,7 +28,7 @@ export {
     ShoppingCartIcon,
     SunIcon,
     UserIcon,
-    XIcon
+    XIcon,
 } from '@lucide/svelte/icons';
 
 export { default as GoogleIcon } from './google.svelte';

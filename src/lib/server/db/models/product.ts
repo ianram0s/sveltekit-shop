@@ -1,6 +1,6 @@
-import { pgTable, text, timestamp, integer, boolean, decimal, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, integer, boolean, decimal, jsonb } from 'drizzle-orm/pg-core';
 
-export const product = pgTable("product", {
+export const product = pgTable('product', {
     id: text('id').primaryKey(),
     title: text('title').notNull(),
     description: text('description').notNull(),
@@ -12,20 +12,22 @@ export const product = pgTable("product", {
     rating: decimal('rating', { precision: 3, scale: 2 }),
     reviewCount: integer('review_count').default(0),
     createdAt: timestamp('created_at').defaultNow().notNull(),
-    updatedAt: timestamp('updated_at').defaultNow().notNull()
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
-export const productAttributes = pgTable("product_attributes", {
+export const productAttributes = pgTable('product_attributes', {
     id: text('id').primaryKey(),
-    productId: text('product_id').notNull().references(() => product.id, { onDelete: 'cascade' }),
+    productId: text('product_id')
+        .notNull()
+        .references(() => product.id, { onDelete: 'cascade' }),
     attributeKey: text('attribute_key').notNull(),
     attributeValue: jsonb('attribute_value').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
-    updatedAt: timestamp('updated_at').defaultNow().notNull()
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
 export type Product = typeof product.$inferSelect;
 export type NewProduct = typeof product.$inferInsert;
 
 export type ProductAttributes = typeof productAttributes.$inferSelect;
-export type NewProductAttributes = typeof productAttributes.$inferInsert; 
+export type NewProductAttributes = typeof productAttributes.$inferInsert;

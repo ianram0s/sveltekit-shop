@@ -11,11 +11,7 @@ export const productSeeder: SeederFunction = {
         console.log('🌱 Seeding categories...');
 
         for (const cat of categories) {
-            const existingCategory = await db
-                .select()
-                .from(category)
-                .where(eq(category.id, cat.id))
-                .limit(1);
+            const existingCategory = await db.select().from(category).where(eq(category.id, cat.id)).limit(1);
 
             if (existingCategory.length === 0) {
                 await db.insert(category).values({
@@ -24,7 +20,7 @@ export const productSeeder: SeederFunction = {
                     slug: cat.slug,
                     description: cat.description || null,
                     createdAt: new Date(),
-                    updatedAt: new Date()
+                    updatedAt: new Date(),
                 });
                 console.log(`✅ Created category: ${cat.name}`);
             } else {
@@ -35,11 +31,7 @@ export const productSeeder: SeederFunction = {
         console.log('\n🌱 Seeding products...');
 
         for (const prod of products) {
-            const existingProduct = await db
-                .select()
-                .from(product)
-                .where(eq(product.id, prod.id))
-                .limit(1);
+            const existingProduct = await db.select().from(product).where(eq(product.id, prod.id)).limit(1);
 
             if (existingProduct.length === 0) {
                 await db.insert(product).values({
@@ -54,7 +46,7 @@ export const productSeeder: SeederFunction = {
                     rating: prod.rating ? prod.rating.toString() : null,
                     reviewCount: prod.reviewCount || 0,
                     createdAt: new Date(),
-                    updatedAt: new Date()
+                    updatedAt: new Date(),
                 });
                 console.log(`✅ Created product: ${prod.title}`);
             } else {
@@ -67,12 +59,10 @@ export const productSeeder: SeederFunction = {
         for (const prod of products) {
             for (const categoryId of prod.categoryIds) {
                 // Check if relationship already exists
-                const existingRelationships = await db
-                    .select()
-                    .from(productCategory);
+                const existingRelationships = await db.select().from(productCategory);
 
                 const relationshipExists = existingRelationships.some(
-                    rel => rel.productId === prod.id && rel.categoryId === categoryId
+                    (rel) => rel.productId === prod.id && rel.categoryId === categoryId,
                 );
 
                 if (!relationshipExists) {
@@ -80,7 +70,7 @@ export const productSeeder: SeederFunction = {
                         id: crypto.randomUUID(),
                         productId: prod.id,
                         categoryId: categoryId,
-                        createdAt: new Date()
+                        createdAt: new Date(),
                     });
                     console.log(`✅ Linked product '${prod.title}' to category '${categoryId}'`);
                 } else {
@@ -97,8 +87,8 @@ export const productSeeder: SeederFunction = {
                 .from(productAttributes)
                 .where(eq(productAttributes.productId, prod.id));
 
-            const hasColors = existingAttributes.some(attr => attr.attributeKey === 'availableColors');
-            const hasSizes = existingAttributes.some(attr => attr.attributeKey === 'availableSizes');
+            const hasColors = existingAttributes.some((attr) => attr.attributeKey === 'availableColors');
+            const hasSizes = existingAttributes.some((attr) => attr.attributeKey === 'availableSizes');
 
             if (!hasColors) {
                 await db.insert(productAttributes).values({
@@ -107,7 +97,7 @@ export const productSeeder: SeederFunction = {
                     attributeKey: 'availableColors',
                     attributeValue: prod.availableColors,
                     createdAt: new Date(),
-                    updatedAt: new Date()
+                    updatedAt: new Date(),
                 });
                 console.log(`✅ Added colors for product: ${prod.title}`);
             } else {
@@ -121,7 +111,7 @@ export const productSeeder: SeederFunction = {
                     attributeKey: 'availableSizes',
                     attributeValue: prod.availableSizes,
                     createdAt: new Date(),
-                    updatedAt: new Date()
+                    updatedAt: new Date(),
                 });
                 console.log(`✅ Added sizes for product: ${prod.title}`);
             } else {
@@ -130,5 +120,5 @@ export const productSeeder: SeederFunction = {
         }
 
         console.log('\n🎉 Product seeding completed successfully!');
-    }
-}; 
+    },
+};

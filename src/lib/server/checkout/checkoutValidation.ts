@@ -1,10 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import {
-    customerFormSchema,
-    shippingFormSchema,
-    paymentFormSchema,
-    reviewFormSchema
-} from '@/schemas';
+import { customerFormSchema, shippingFormSchema, paymentFormSchema, reviewFormSchema } from '@/schemas';
 
 export interface CheckoutStepValidation {
     canAccess: boolean;
@@ -55,15 +50,12 @@ export class CheckoutStepValidator {
             1: '/checkout/step/customer',
             2: '/checkout/step/shipping',
             3: '/checkout/step/payment',
-            4: '/checkout/step/review'
+            4: '/checkout/step/review',
         };
         return paths[stepNumber as keyof typeof paths] || '/checkout/step/customer';
     }
 
-    static validateStepAccess(
-        requestedStep: string,
-        checkoutDataString?: string | null
-    ): CheckoutStepValidation {
+    static validateStepAccess(requestedStep: string, checkoutDataString?: string | null): CheckoutStepValidation {
         const checkoutData = this.parseCheckoutData(checkoutDataString);
         const requestedStepNumber = this.getStepNumber(requestedStep);
 
@@ -72,7 +64,7 @@ export class CheckoutStepValidator {
                 canAccess: requestedStep === 'customer',
                 redirectTo: requestedStep !== 'customer' ? '/checkout/step/customer' : undefined,
                 missingSteps: ['customer', 'shipping', 'payment', 'review'],
-                currentStep: 1
+                currentStep: 1,
             };
         }
 
@@ -83,7 +75,7 @@ export class CheckoutStepValidator {
             { name: 'customer', data: checkoutData.customer },
             { name: 'shipping', data: checkoutData.shipping },
             { name: 'payment', data: checkoutData.payment },
-            { name: 'review', data: checkoutData.review }
+            { name: 'review', data: checkoutData.review },
         ];
 
         for (const step of stepChecks) {
@@ -101,14 +93,11 @@ export class CheckoutStepValidator {
             canAccess,
             redirectTo: !canAccess ? this.getStepPath(currentStep) : undefined,
             missingSteps,
-            currentStep
+            currentStep,
         };
     }
 
-    static requireStepAccess(
-        requestedStep: string,
-        checkoutDataString?: string | null
-    ): void {
+    static requireStepAccess(requestedStep: string, checkoutDataString?: string | null): void {
         const validation = this.validateStepAccess(requestedStep, checkoutDataString);
 
         if (!validation.canAccess && validation.redirectTo) {
@@ -124,15 +113,13 @@ export class CheckoutStepValidator {
     } {
         const validation = this.validateStepAccess('review', checkoutDataString);
         const allSteps = ['customer', 'shipping', 'payment', 'review'];
-        const completedSteps = allSteps.filter(step =>
-            !validation.missingSteps.includes(step)
-        );
+        const completedSteps = allSteps.filter((step) => !validation.missingSteps.includes(step));
 
         return {
             completedSteps,
             currentStep: validation.currentStep,
             nextStep: validation.currentStep <= 4 ? allSteps[validation.currentStep - 1] : null,
-            isComplete: completedSteps.length === 4
+            isComplete: completedSteps.length === 4,
         };
     }
 }

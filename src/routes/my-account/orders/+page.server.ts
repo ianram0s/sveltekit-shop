@@ -7,6 +7,6 @@ export async function load({ request }) {
 
     return {
         user,
-        orders
+        orders,
     };
 }

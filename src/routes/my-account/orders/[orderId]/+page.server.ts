@@ -22,8 +22,6 @@ export async function load({ request, params }) {
 
     return {
         user,
-        order: result
+        order: result,
     };
 }
-
-
